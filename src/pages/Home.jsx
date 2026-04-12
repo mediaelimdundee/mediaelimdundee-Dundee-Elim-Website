@@ -395,5 +395,18 @@ export default function Home() {
         </div>
       </section>
     </div>
+          {/* Hidden SVG Filter for Liquid Glass Dynamics */}
+      <svg className="hidden">
+        <filter id="liquid-distortion">
+          <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise">
+            <animate attributeName="baseFrequency" values="0.015;0.025;0.015" dur="10s" repeatCount="indefinite" />
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="40" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+    </div> // This is the final closing div of the component
+  );
+}
+
   );
 }
