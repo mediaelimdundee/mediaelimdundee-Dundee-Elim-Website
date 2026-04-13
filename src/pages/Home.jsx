@@ -394,8 +394,7 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-    </div>
-          {/* Hidden SVG Filter for Liquid Glass Dynamics */}
+      {/* Hidden SVG Filter for Liquid Glass Dynamics */}
       <svg className="hidden">
         <filter id="liquid-distortion">
           <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise">
@@ -404,9 +403,6 @@ export default function Home() {
           <feDisplacementMap in="SourceGraphic" in2="noise" scale="40" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </svg>
-    </div> // This is the final closing div of the component
-  );
-}
-
+    </div>
   );
 }
