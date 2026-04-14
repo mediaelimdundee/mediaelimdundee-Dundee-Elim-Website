@@ -4,6 +4,7 @@ import { CheckCircle, Send } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
 import { useSiteContent } from '@/contexts/SiteContentContext';
 import { contactInfoConfig } from '@/lib/sitePresentation';
+import { fadeLeft, fadeRight, subtleTap } from '@/lib/motion';
 import { createContactSubmission } from '@/lib/siteContentApi';
 import { openMailto } from '@/lib/mailto';
 import { isSupabaseConfigured } from '@/lib/supabaseClient';
@@ -14,7 +15,6 @@ const specularLine = (
 );
 
 const inputClass = 'glass-input-field';
-const inputStyle = { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)' };
 
 export default function Contact() {
   const { content } = useSiteContent();
@@ -79,8 +79,8 @@ export default function Contact() {
               const Icon = style.Icon;
 
               return (
-                <motion.div key={`${card.kind}-${index}`} initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1, duration: 0.6 }} viewport={{ once: true }} className="glass-panel p-7">
-                  <div className="p-3 rounded-xl inline-block mb-4" style={{ background: style.bg }}>
+                <motion.div key={`${card.kind}-${index}`} {...fadeLeft} transition={{ ...fadeLeft.transition, delay: index * 0.06 }} className="glass-panel p-7">
+                  <div className="glass-icon-badge mb-4" style={{ background: style.bg }}>
                     <Icon className={`w-6 h-6 ${style.color}`} />
                   </div>
                   <h3 className="text-white font-semibold text-lg mb-3">{card.title}</h3>
@@ -113,7 +113,7 @@ export default function Contact() {
                     </div>
                   )}
                   {card.linkLabel && card.linkUrl && (
-                    <motion.a whileTap={{ scale: 0.95 }} href={card.linkUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-blue-400 hover:text-white text-sm transition-colors">
+                    <motion.a {...subtleTap} href={card.linkUrl} target="_blank" rel="noreferrer" className="glass-action-soft mt-4 inline-flex px-5 text-sm text-blue-300 hover:text-white">
                       {card.linkLabel} →
                     </motion.a>
                   )}
@@ -122,7 +122,7 @@ export default function Contact() {
             })}
           </div>
 
-          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="glass-panel lg:col-span-3 p-8">
+          <motion.div {...fadeRight} className="glass-panel lg:col-span-3 p-8">
             {submitted ? (
               <div className="flex flex-col items-center justify-center h-full py-16 text-center">
                 <div className="p-4 rounded-full mb-5" style={{ background: 'rgba(34,197,94,0.15)' }}>
@@ -130,7 +130,7 @@ export default function Contact() {
                 </div>
                 <h3 className="font-display text-2xl font-bold text-white mb-3">{content.contact.form.successTitle}</h3>
                 <p className="text-white/55">{content.contact.form.successDescription}</p>
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => { setSubmitted(false); setForm({ name: '', email: '', phone: '', subject: '', message: '' }); }} className="mt-6 text-blue-400 hover:text-white text-sm transition-colors">
+                <motion.button {...subtleTap} onClick={() => { setSubmitted(false); setForm({ name: '', email: '', phone: '', subject: '', message: '' }); }} className="glass-action-soft mt-6 px-5 text-sm text-blue-300 hover:text-white">
                   {content.contact.form.resetLabel}
                 </motion.button>
               </div>
@@ -141,33 +141,33 @@ export default function Contact() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-white/40 text-xs font-medium mb-2 uppercase tracking-wider">Your Name *</label>
-                      <input required type="text" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} className={inputClass} style={inputStyle} placeholder="John Smith" />
+                      <input required type="text" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} className={inputClass} placeholder="John Smith" />
                     </div>
                     <div>
                       <label className="block text-white/40 text-xs font-medium mb-2 uppercase tracking-wider">Email *</label>
-                      <input required type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} className={inputClass} style={inputStyle} placeholder="john@example.com" />
+                      <input required type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} className={inputClass} placeholder="john@example.com" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-white/40 text-xs font-medium mb-2 uppercase tracking-wider">Phone</label>
-                      <input type="tel" value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} className={inputClass} style={inputStyle} placeholder="+44..." />
+                      <input type="tel" value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} className={inputClass} placeholder="+44..." />
                     </div>
                     <div>
                       <label className="block text-white/40 text-xs font-medium mb-2 uppercase tracking-wider">Subject</label>
-                      <input type="text" value={form.subject} onChange={(event) => setForm({ ...form, subject: event.target.value })} className={inputClass} style={inputStyle} placeholder="How can we help?" />
+                      <input type="text" value={form.subject} onChange={(event) => setForm({ ...form, subject: event.target.value })} className={inputClass} placeholder="How can we help?" />
                     </div>
                   </div>
                   <div>
                     <label className="block text-white/40 text-xs font-medium mb-2 uppercase tracking-wider">Message *</label>
-                    <textarea required rows={5} value={form.message} onChange={(event) => setForm({ ...form, message: event.target.value })} className={`${inputClass} resize-none`} style={inputStyle} placeholder="Your message..." />
+                    <textarea required rows={5} value={form.message} onChange={(event) => setForm({ ...form, message: event.target.value })} className={inputClass} placeholder="Your message..." />
                   </div>
                   {error && (
-                    <div className="rounded-xl px-4 py-3 text-sm text-red-200" style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.2)' }}>
+                    <div className="rounded-[1.1rem] px-4 py-3 text-sm text-red-200" style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.2)' }}>
                       {error}
                     </div>
                   )}
-                  <motion.button whileTap={{ scale: 0.95 }} type="submit" disabled={loading} className="w-full py-4 rounded-2xl lg-btn-primary transition-all flex items-center justify-center gap-2 disabled:opacity-50">
+                  <motion.button {...subtleTap} type="submit" disabled={loading} className="glass-action-primary w-full disabled:opacity-50">
                     <Send className="w-4 h-4" />
                     {loading ? 'Sending...' : content.contact.form.submitLabel}
                   </motion.button>
@@ -180,7 +180,7 @@ export default function Contact() {
 
       <div className="px-4 mt-10">
         <div className="glass-panel section-inner overflow-hidden p-1">
-          <iframe src={content.contact.mapEmbedUrl || content.settings.links.mapsEmbedUrl} className="w-full h-72 rounded-xl" style={{ border: 0 }} allowFullScreen loading="lazy" title="Church Location" />
+          <iframe src={content.contact.mapEmbedUrl || content.settings.links.mapsEmbedUrl} className="h-72 w-full rounded-[1.35rem]" style={{ border: 0 }} allowFullScreen loading="lazy" title="Church Location" />
         </div>
       </div>
     </div>

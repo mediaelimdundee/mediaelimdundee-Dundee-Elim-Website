@@ -27,12 +27,12 @@ export default function Footer() {
               </p>
               <div className="mt-6 flex justify-center gap-2 md:justify-start">
                 <a href={content.settings.links.youtubeUrl} target="_blank" rel="noreferrer"
-                  className="rounded-2xl p-2.5 text-white/50 transition-colors hover:text-red-400"
+                  className="glass-inline-panel glass-icon-badge text-white/50 transition-colors hover:text-red-400"
                   style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
                   <Youtube className="w-4 h-4" />
                 </a>
                 <a href={content.settings.links.facebookUrl} target="_blank" rel="noreferrer"
-                  className="rounded-2xl p-2.5 text-white/50 transition-colors hover:text-blue-400"
+                  className="glass-inline-panel glass-icon-badge text-white/50 transition-colors hover:text-blue-400"
                   style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
                   <Facebook className="w-4 h-4" />
                 </a>
@@ -58,7 +58,7 @@ export default function Footer() {
               <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-white/80">Services</h3>
               <div className="space-y-3">
                 {(serviceCard?.items || []).map((item) => (
-                  <div key={item.label} className="flex items-start gap-2.5 rounded-2xl border border-white/6 bg-white/[0.03] px-3 py-3">
+                  <div key={item.label} className="glass-inline-panel flex items-start gap-2.5 px-4 py-3">
                     <Clock className="w-4 h-4 text-blue-400/70 mt-0.5 shrink-0" />
                     <div>
                       <div className="text-white/80 text-sm font-medium">{item.label}</div>
@@ -73,11 +73,11 @@ export default function Footer() {
             <div>
               <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-white/80">Find Us</h3>
               <div className="space-y-3">
-                <div className="flex items-start gap-2.5 rounded-2xl border border-white/6 bg-white/[0.03] px-3 py-3">
+                <div className="glass-inline-panel flex items-start gap-2.5 px-4 py-3">
                   <MapPin className="w-4 h-4 text-blue-400/70 mt-0.5 shrink-0" />
                   <div className="text-white/50 text-sm">{content.settings.contact.addressShort}</div>
                 </div>
-                <div className="flex items-start gap-2.5 rounded-2xl border border-white/6 bg-white/[0.03] px-3 py-3">
+                <div className="glass-inline-panel flex items-start gap-2.5 px-4 py-3">
                   <Mail className="w-4 h-4 text-blue-400/70 mt-0.5 shrink-0" />
                   <a href={`mailto:${content.settings.contact.email}`} className="text-white/50 text-sm hover:text-blue-300 transition-colors">
                     {content.settings.contact.email}

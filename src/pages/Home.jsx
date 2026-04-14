@@ -5,6 +5,7 @@ import { ArrowRight, ChevronRight, Mail, MapPin, Play, Youtube } from 'lucide-re
 import SEOHead from '@/components/SEOHead';
 import PrayerRequestForm from '@/components/home/PrayerRequestForm';
 import { useSiteContent } from '@/contexts/SiteContentContext';
+import { cardHover, fadeLeft, fadeRight, fadeUp, subtleTap } from '@/lib/motion';
 import { resolveMediaSrc } from '@/lib/siteContentUtils';
 import { beliefConfig, quickInfoConfig } from '@/lib/sitePresentation';
 import { normalizeSnapshotVideoSermons, useYoutubeSermons } from '@/lib/youtubeSermons';
@@ -41,7 +42,7 @@ function HeroSlideshow({ slides }) {
           initial={{ opacity: 0, scale: 1.04 }}
           animate={{ opacity: 0.3, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.4 }}
+          transition={{ duration: 1.05 }}
         />
       </AnimatePresence>
       <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/20 to-background" />
@@ -86,9 +87,9 @@ export default function Home() {
         <HeroSlideshow slides={content.home.hero.slides} />
 
         <div className="relative z-10 mx-auto max-w-5xl text-center">
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
             <span
-              className="inline-block rounded-full px-5 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-blue-200"
+              className="glass-chip inline-flex px-5 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-blue-200"
               style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)' }}
             >
               {content.home.hero.eyebrow}
@@ -98,7 +99,7 @@ export default function Home() {
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
+            transition={{ duration: 0.68, delay: 0.12 }}
             className="mt-6 mb-6 font-display text-5xl font-bold leading-[0.92] text-white glow-text sm:text-6xl lg:text-[5.35rem]"
           >
             {content.home.hero.titleLead}
@@ -109,7 +110,7 @@ export default function Home() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.58, delay: 0.25 }}
             className="mx-auto mb-8 max-w-3xl text-base leading-8 text-white/62 sm:text-xl"
           >
             {content.home.hero.description}
@@ -118,17 +119,17 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
+            transition={{ duration: 0.45, delay: 0.42 }}
             className="flex flex-col justify-center gap-4 sm:flex-row"
           >
-            <motion.div whileTap={{ scale: 0.95 }}>
-              <Link to={content.home.hero.primaryCtaPath} className="group flex items-center justify-center gap-2 rounded-2xl px-8 py-4 text-base transition-all lg-btn-primary sm:text-lg">
+            <motion.div {...subtleTap}>
+              <Link to={content.home.hero.primaryCtaPath} className="glass-action-primary group px-8 text-base sm:text-lg">
                 {content.home.hero.primaryCtaLabel}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
-            <motion.div whileTap={{ scale: 0.95 }}>
-              <Link to={content.home.hero.secondaryCtaPath} className="flex items-center justify-center gap-2 rounded-2xl px-8 py-4 text-base transition-all lg-btn-ghost sm:text-lg">
+            <motion.div {...subtleTap}>
+              <Link to={content.home.hero.secondaryCtaPath} className="glass-action-secondary px-8 text-base sm:text-lg">
                 <Play className="w-5 h-5" />
                 {content.home.hero.secondaryCtaLabel}
               </Link>
@@ -156,13 +157,11 @@ export default function Home() {
             return (
               <motion.div
                 key={`${item.title}-${index}`}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="glass-panel flex items-center gap-4 p-6 transition-transform hover:scale-[1.02]"
+                {...fadeUp}
+                transition={{ ...fadeUp.transition, delay: index * 0.06 }}
+                className="glass-panel flex items-center gap-4 p-6 transition-transform hover:-translate-y-1"
               >
-                <div className="p-3 rounded-xl shrink-0" style={{ background: style.bg }}>
+                <div className="glass-icon-badge shrink-0" style={{ background: style.bg }}>
                   <Icon className={`w-6 h-6 ${style.color}`} />
                 </div>
                 <div>
@@ -178,24 +177,20 @@ export default function Home() {
       <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            {...fadeRight}
             className="relative order-1 lg:order-none"
           >
             <div className="absolute -inset-6 rounded-3xl" style={{ background: 'radial-gradient(circle, rgba(80,130,255,0.15) 0%, transparent 70%)' }} />
-            <div className="relative rounded-3xl overflow-hidden lg-surface p-1.5">
-              <img src={resolveMediaSrc(content.home.pastors.image)} alt={content.home.pastors.image.alt || content.home.pastors.imageTitle} className="rounded-2xl w-full object-cover object-top shadow-2xl" />
+            <div className="glass-panel-strong relative p-1.5">
+              <img src={resolveMediaSrc(content.home.pastors.image)} alt={content.home.pastors.image.alt || content.home.pastors.imageTitle} className="w-full rounded-[1.45rem] object-cover object-top shadow-2xl" />
             </div>
-            <div className="absolute bottom-6 left-6 right-6 rounded-2xl px-5 py-3 lg-surface">
-              <div className="absolute inset-x-0 top-0 h-px rounded-t-2xl" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)' }} />
+            <div className="glass-inline-panel absolute bottom-6 left-6 right-6 px-5 py-3 backdrop-blur-2xl">
               <div className="text-white font-semibold text-sm">{content.home.pastors.imageTitle}</div>
               <div className="text-blue-300/70 text-xs">{content.home.pastors.imageSubtitle}</div>
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
+          <motion.div {...fadeLeft}>
             <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.home.pastors.eyebrow}</span>
             <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mt-3 mb-6 leading-tight">
               {content.home.pastors.titleLead}
@@ -209,15 +204,15 @@ export default function Home() {
             ))}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
               {content.home.pastors.stats.map((item) => (
-                <div key={item.label} className="lg-surface rounded-2xl p-4 text-center relative overflow-hidden">
+                <div key={item.label} className="glass-panel p-4 text-center">
                   <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
                   <div className="font-display text-2xl font-bold text-gradient">{item.value}</div>
                   <div className="text-white/40 text-xs mt-1">{item.label}</div>
                 </div>
               ))}
             </div>
-            <motion.div whileTap={{ scale: 0.95 }}>
-              <Link to={content.home.pastors.ctaPath} className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl lg-btn-ghost font-medium transition-all group text-sm">
+            <motion.div {...subtleTap}>
+              <Link to={content.home.pastors.ctaPath} className="glass-action-secondary group px-6 text-sm font-medium">
                 {content.home.pastors.ctaLabel}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -228,7 +223,7 @@ export default function Home() {
 
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
+          <motion.div {...fadeUp} className="text-center mb-10">
             <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.home.beliefs.eyebrow}</span>
             <h2 className="font-display text-4xl font-bold text-white mt-2">{content.home.beliefs.title}</h2>
           </motion.div>
@@ -240,16 +235,14 @@ export default function Home() {
               return (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.15 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                  className="lg-surface lg-iridescent rounded-3xl p-8 text-center relative overflow-hidden"
+                  {...fadeUp}
+                  transition={{ ...fadeUp.transition, delay: index * 0.08 }}
+                  {...cardHover}
+                  className="glass-panel-strong lg-iridescent p-8 text-center"
                 >
-                  <div className="absolute inset-x-0 top-0 h-px rounded-t-3xl" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)' }} />
+                  <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)' }} />
                   <div className="relative z-10">
-                    <div className="p-4 rounded-2xl inline-block mb-5" style={{ background: style.bg }}>
+                    <div className="glass-icon-badge mb-5" style={{ background: style.bg }}>
                       <Icon className={`w-8 h-8 ${style.color}`} />
                     </div>
                     <h3 className="text-white font-display text-xl font-semibold mb-3">{item.title}</h3>
@@ -264,7 +257,7 @@ export default function Home() {
 
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
+          <motion.div {...fadeUp} className="text-center mb-10">
             <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.home.gallery.eyebrow}</span>
             <h2 className="font-display text-4xl font-bold text-white mt-2">{content.home.gallery.title}</h2>
           </motion.div>
@@ -277,9 +270,9 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.08 }}
                   viewport={{ once: true }}
-                  className="rounded-2xl overflow-hidden aspect-[4/3]"
+                  className="glass-panel overflow-hidden p-1 aspect-[4/3]"
                 >
-                  <img src={resolveMediaSrc(asset)} alt={asset.alt || 'Life at Dundee Elim'} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src={resolveMediaSrc(asset)} alt={asset.alt || 'Life at Dundee Elim'} className="h-full w-full rounded-[1.4rem] object-cover transition-transform duration-500 hover:scale-[1.04]" />
                 </motion.div>
               ))}
             </div>
@@ -291,9 +284,9 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.24 + index * 0.08 }}
                   viewport={{ once: true }}
-                  className="rounded-2xl overflow-hidden aspect-[16/7]"
+                  className="glass-panel overflow-hidden p-1 aspect-[16/7]"
                 >
-                  <img src={resolveMediaSrc(asset)} alt={asset.alt || 'Life at Dundee Elim'} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src={resolveMediaSrc(asset)} alt={asset.alt || 'Life at Dundee Elim'} className="h-full w-full rounded-[1.4rem] object-cover transition-transform duration-500 hover:scale-[1.04]" />
                 </motion.div>
               ))}
             </div>
@@ -303,7 +296,7 @@ export default function Home() {
 
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-8 items-stretch">
-          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="lg:col-span-3">
+          <motion.div {...fadeLeft} className="lg:col-span-3">
             <div className="flex items-center justify-between mb-5">
               <div>
                 <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.home.media.eyebrow}</span>
@@ -319,8 +312,8 @@ export default function Home() {
                 {content.home.media.subscribeLabel}
               </a>
             </div>
-            <div className="lg-surface rounded-3xl overflow-hidden glow-blue mb-4 p-1">
-              <div className="aspect-video w-full rounded-2xl overflow-hidden bg-black/40">
+            <div className="glass-panel-strong glow-blue mb-4 overflow-hidden p-1">
+              <div className="aspect-video w-full overflow-hidden rounded-[1.45rem] bg-black/40">
                 {latestVideoId ? (
                   <iframe
                     className="w-full h-full"
@@ -336,15 +329,14 @@ export default function Home() {
                 )}
               </div>
             </div>
-            <Link to={content.home.media.viewAllPath} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl lg-btn-ghost text-sm font-medium transition-all">
+            <Link to={content.home.media.viewAllPath} className="glass-action-secondary px-5 text-sm font-medium">
               {content.home.media.viewAllLabel}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="lg:col-span-2">
-            <div className="lg-surface rounded-3xl p-7 h-full relative overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-px rounded-t-3xl" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
+          <motion.div {...fadeRight} className="lg:col-span-2">
+            <div className="glass-panel h-full p-7">
               <div className="flex items-center gap-2 mb-5">
                 <span className="text-white font-semibold text-sm">{content.home.weeklyRhythm.title}</span>
               </div>
@@ -372,14 +364,8 @@ export default function Home() {
 
       <section className="px-4 pb-20 pt-12 sm:pt-14">
         <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true }}
-            className="glass-panel-strong lg-iridescent p-8 sm:p-10 lg:p-12"
-          >
-            <div className="absolute inset-x-0 top-0 h-px rounded-t-3xl" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)' }} />
+          <motion.div {...fadeUp} className="glass-panel-strong lg-iridescent p-8 sm:p-10 lg:p-12">
+            <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)' }} />
             <div className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
               <div className="text-center lg:text-left">
                 <span className="inline-block text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-blue-200/75">
@@ -392,18 +378,18 @@ export default function Home() {
                   {content.home.cta.description}
                 </p>
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-                  <motion.div whileTap={{ scale: 0.95 }}>
-                    <Link to={content.home.cta.primaryPath} className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-3.5 text-base lg-btn-primary transition-all">
+                  <motion.div {...subtleTap}>
+                    <Link to={content.home.cta.primaryPath} className="glass-action-primary px-7 text-base">
                       {content.home.cta.primaryLabel}
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   </motion.div>
-                  <motion.div whileTap={{ scale: 0.95 }}>
+                  <motion.div {...subtleTap}>
                     <a
                       href={content.home.cta.secondaryUrl || content.settings.links.mapsUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-3.5 text-base lg-btn-ghost transition-all"
+                      className="glass-action-secondary px-7 text-base"
                     >
                       <MapPin className="w-4 h-4" />
                       {content.home.cta.secondaryLabel}
@@ -416,10 +402,10 @@ export default function Home() {
                 {trustPoints.map((item, index) => {
                   const Icon = item.Icon;
 
-                  return (
+                    return (
                     <div key={`closing-${item.title}-${index}`} className="glass-panel px-4 py-4 text-left">
                       <div className="flex items-start gap-3">
-                        <div className="rounded-2xl p-3" style={{ background: item.bg }}>
+                        <div className="glass-icon-badge" style={{ background: item.bg }}>
                           <Icon className={`h-4 w-4 ${item.color}`} />
                         </div>
                         <div className="min-w-0">

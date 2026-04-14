@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import SEOHead from '@/components/SEOHead';
 import { useSiteContent } from '@/contexts/SiteContentContext';
 import { ministryIconMap, ministryTagStyles, ministryThemeMap } from '@/lib/sitePresentation';
+import { cardHover, fadeUp } from '@/lib/motion';
 import { filterPublishedItems, resolveMediaSrc } from '@/lib/siteContentUtils';
 
 const specularLine = (
@@ -62,15 +63,14 @@ export default function Ministries() {
             return (
               <motion.div
                 key={`${item.title}-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                viewport={{ once: true }}
-                className="glass-panel flex cursor-pointer flex-col p-7 transition-transform hover:scale-[1.02]"
+                {...fadeUp}
+                transition={{ ...fadeUp.transition, delay: index * 0.04 }}
+                {...cardHover}
+                className="glass-panel flex cursor-pointer flex-col p-7"
                 onClick={() => setSelected(item)}
               >
                 <div className="flex items-start justify-between mb-5">
-                  <div className="p-3 rounded-xl" style={{ background: iconStyle.bg }}>
+                  <div className="glass-icon-badge" style={{ background: iconStyle.bg }}>
                     <Icon className={`w-6 h-6 ${iconStyle.color}`} />
                   </div>
                   <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${tagStyle.text}`} style={{ background: tagStyle.bg, border: `1px solid ${tagStyle.border}` }}>
@@ -102,11 +102,11 @@ export default function Ministries() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-40" style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)' }} onClick={() => setSelected(null)} />
             <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} transition={{ duration: 0.2 }} className="fixed inset-0 z-50 flex items-center justify-center p-4">
               <div className="glass-panel-strong relative max-h-[85vh] w-full max-w-2xl overflow-y-auto p-8">
-                <button onClick={() => setSelected(null)} className="absolute top-4 right-4 p-2 rounded-xl text-white/40 hover:text-white transition-colors" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <button onClick={() => setSelected(null)} className="glass-light absolute right-4 top-4 p-2 text-white/40 transition-colors hover:text-white">
                   <X className="w-4 h-4" />
                 </button>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 rounded-xl" style={{ background: (ministryThemeMap[selected.theme] || ministryThemeMap.blue).bg }}>
+                  <div className="glass-icon-badge" style={{ background: (ministryThemeMap[selected.theme] || ministryThemeMap.blue).bg }}>
                     {(() => {
                       const Icon = ministryIconMap[selected.iconKey] || ministryIconMap.users;
                       const iconStyle = ministryThemeMap[selected.theme] || ministryThemeMap.blue;
@@ -123,24 +123,24 @@ export default function Ministries() {
                 <div className="text-white/60 text-sm leading-relaxed whitespace-pre-line mb-6">{selected.body}</div>
                 <div className="flex flex-wrap gap-3">
                   {selected.linkLabel && selected.linkUrl && (
-                    <a href={selected.linkUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2.5 rounded-xl lg-btn-primary text-sm font-medium transition-all">
+                    <a href={selected.linkUrl} target="_blank" rel="noreferrer" className="glass-action-primary px-4 text-sm font-medium">
                       {selected.linkLabel}
                       <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   )}
                   {selected.contactEmail && (
-                    <a href={`mailto:${selected.contactEmail}`} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-blue-300 hover:text-white text-sm font-medium transition-all" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <a href={`mailto:${selected.contactEmail}`} className="glass-action-soft px-4 text-sm font-medium text-blue-300 hover:text-white">
                       <Mail className="w-3.5 h-3.5" />
                       {selected.contactEmail}
                     </a>
                   )}
                   {selected.contactPhone && (
-                    <a href={`tel:${selected.contactPhone.replace(/\s/g, '')}`} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-blue-300 hover:text-white text-sm font-medium transition-all" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <a href={`tel:${selected.contactPhone.replace(/\s/g, '')}`} className="glass-action-soft px-4 text-sm font-medium text-blue-300 hover:text-white">
                       <Phone className="w-3.5 h-3.5" />
                       {selected.contactPhone}
                     </a>
                   )}
-                  <Link to="/contact" className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white/50 hover:text-white text-sm font-medium transition-all" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <Link to="/contact" className="glass-action-secondary px-4 text-sm font-medium text-white/70 hover:text-white">
                     Get in touch
                   </Link>
                 </div>
@@ -153,8 +153,8 @@ export default function Ministries() {
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-3">
           {content.ministries.photoStrip.map((asset, index) => (
-            <div key={`${asset.url}-${index}`} className="overflow-hidden rounded-2xl aspect-square lg-surface p-0.5">
-              <img src={resolveMediaSrc(asset)} alt={asset.alt || 'Community'} className="w-full h-full object-cover rounded-xl hover:scale-105 transition-transform duration-500 opacity-80 hover:opacity-100" />
+            <div key={`${asset.url}-${index}`} className="glass-panel overflow-hidden aspect-square p-0.5">
+              <img src={resolveMediaSrc(asset)} alt={asset.alt || 'Community'} className="h-full w-full rounded-[1.35rem] object-cover opacity-80 transition-transform duration-500 hover:scale-[1.04] hover:opacity-100" />
             </div>
           ))}
         </div>

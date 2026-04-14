@@ -39,7 +39,7 @@ export default function AdminLayout() {
       <div className="border-b border-[#dbe1ea] bg-white/85 backdrop-blur lg:hidden">
         <div className="flex items-center justify-between px-4 py-4">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#e3b341] text-slate-950 shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-[1.05rem] bg-[#e3b341] text-slate-950 shadow-sm">
               <Church className="h-4 w-4" />
             </div>
             <div>
@@ -50,7 +50,7 @@ export default function AdminLayout() {
           <button
             type="button"
             onClick={handleLogout}
-            className="rounded-xl border border-[#dbe1ea] bg-white px-3 py-2 text-xs font-medium text-muted-foreground shadow-sm"
+            className="admin-toolbar-button text-xs text-muted-foreground"
           >
             Log out
           </button>
@@ -64,7 +64,7 @@ export default function AdminLayout() {
                   key={to}
                   to={to}
                   className={cn(
-                    'inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-colors',
+                    'admin-chip gap-2',
                     isActive ? 'bg-[#4857d6] text-white' : 'border border-[#dbe1ea] bg-white text-muted-foreground',
                   )}
                 >
@@ -81,7 +81,7 @@ export default function AdminLayout() {
       <aside className="hidden w-64 shrink-0 border-r border-[#2b3040] bg-[#1d2230] text-[#c9d0dc] shadow-[12px_0_32px_rgba(12,18,32,0.22)] lg:flex lg:flex-col">
         <div className="border-b border-[#2b3040] px-5 py-6">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#e3b341] text-slate-950 shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-[1.05rem] bg-[#e3b341] text-slate-950 shadow-sm">
               <Church className="h-4 w-4" />
             </div>
             <div>
@@ -97,7 +97,7 @@ export default function AdminLayout() {
               key={to}
               to={to}
               className={({ isActive }) => cn(
-                'mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all',
+                'mb-1 flex min-h-[2.7rem] items-center gap-3 rounded-full px-4 text-sm transition-all',
                 (matchPrefix ? location.pathname.startsWith(matchPrefix) : isActive)
                   ? 'bg-[#e3b341] text-slate-950 shadow-sm'
                   : 'text-[#c9d0dc] hover:bg-[#2a3040] hover:text-white',
@@ -113,7 +113,7 @@ export default function AdminLayout() {
           <button
             type="button"
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[#c9d0dc] transition-all hover:bg-[#2a3040] hover:text-white"
+            className="flex w-full min-h-[2.7rem] items-center gap-3 rounded-full px-4 text-sm text-[#c9d0dc] transition-all hover:bg-[#2a3040] hover:text-white"
           >
             <LogOut className="h-4 w-4" />
             <span>Log out</span>

@@ -63,7 +63,7 @@ export default function StickyPublishBar() {
             type="button"
             onClick={() => admin.saveDraft()}
             disabled={admin.saving}
-            className="inline-flex items-center gap-2 rounded-2xl border border-[#dbe1ea] bg-white px-4 py-2.5 text-sm font-medium text-foreground shadow-sm transition-opacity disabled:opacity-60"
+            className="admin-toolbar-button disabled:opacity-60"
           >
             {admin.saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Save Draft
@@ -72,7 +72,7 @@ export default function StickyPublishBar() {
             type="button"
             onClick={() => admin.publishSite()}
             disabled={admin.publishing}
-            className="inline-flex items-center gap-2 rounded-2xl bg-[#4857d6] px-4 py-2.5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(72,87,214,0.2)] transition-opacity disabled:opacity-60"
+            className="inline-flex min-h-[2.7rem] items-center gap-2 rounded-full bg-[#4857d6] px-4 text-sm font-medium text-white shadow-[0_12px_24px_rgba(72,87,214,0.2)] transition-opacity disabled:opacity-60"
           >
             {admin.publishing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Globe className="h-4 w-4" />}
             Publish Site

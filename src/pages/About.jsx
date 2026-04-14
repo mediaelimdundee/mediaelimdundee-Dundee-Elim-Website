@@ -1,15 +1,9 @@
 import { motion } from 'framer-motion';
 import SEOHead from '@/components/SEOHead';
 import { useSiteContent } from '@/contexts/SiteContentContext';
+import { fadeRight, fadeUp, subtleTap } from '@/lib/motion';
 import { resolveMediaSrc } from '@/lib/siteContentUtils';
 import { aboutTravelConfig } from '@/lib/sitePresentation';
-
-const fadeUp = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 },
-  viewport: { once: true },
-};
 
 const specularLine = (
   <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)' }} />
@@ -41,10 +35,10 @@ export default function About() {
           <motion.div {...fadeUp} className="relative">
             <div className="absolute -inset-4 rounded-3xl" style={{ background: 'radial-gradient(circle, rgba(80,130,255,0.12) 0%, transparent 70%)' }} />
             <div className="glass-panel-strong p-1.5">
-              <img src={resolveMediaSrc(content.about.pastors.image)} alt={content.about.pastors.image.alt || 'Pastors'} className="rounded-2xl w-full object-cover shadow-2xl" />
+              <img src={resolveMediaSrc(content.about.pastors.image)} alt={content.about.pastors.image.alt || 'Pastors'} className="w-full rounded-[1.45rem] object-cover shadow-2xl" />
             </div>
           </motion.div>
-          <motion.div {...fadeUp}>
+          <motion.div {...fadeRight}>
             <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.about.pastors.eyebrow}</span>
             <h2 className="font-display text-4xl font-bold text-white mt-3 mb-6">
               {content.about.pastors.titleLead}
@@ -98,13 +92,13 @@ export default function About() {
               return (
                 <motion.div key={card.title} {...fadeUp} className="glass-panel p-8">
                   {specularLine}
-                  <div className="p-3 rounded-xl inline-block mb-4" style={{ background: style.bg }}>
+                  <div className="glass-icon-badge mb-4" style={{ background: style.bg }}>
                     <Icon className={`w-6 h-6 ${style.color}`} />
                   </div>
                   <h3 className="text-white font-semibold text-lg mb-3">{card.title}</h3>
                   <p className="text-white/60 text-sm leading-relaxed whitespace-pre-line">{card.description}</p>
                   {card.linkLabel && card.linkUrl && (
-                    <motion.a whileTap={{ scale: 0.95 }} href={card.linkUrl} target="_blank" rel="noreferrer" className="mt-4 inline-block text-blue-400 hover:text-white text-sm transition-colors">
+                    <motion.a {...subtleTap} href={card.linkUrl} target="_blank" rel="noreferrer" className="glass-action-soft mt-4 inline-flex px-5 text-sm text-blue-300 hover:text-white">
                       {card.linkLabel} →
                     </motion.a>
                   )}
@@ -115,7 +109,7 @@ export default function About() {
           <motion.div {...fadeUp} className="glass-panel overflow-hidden p-1">
             <iframe
               src={content.about.gettingHere.mapEmbedUrl || content.settings.links.mapsEmbedUrl}
-              className="w-full h-72 rounded-xl"
+              className="w-full h-72 rounded-[1.35rem]"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
@@ -132,7 +126,7 @@ export default function About() {
             <div className="relative z-10">
               <h2 className="font-display text-3xl font-bold text-white mb-4">{content.about.network.title}</h2>
               <p className="text-white/60 leading-relaxed mb-4 text-sm">{content.about.network.description}</p>
-              <motion.a whileTap={{ scale: 0.95 }} href={content.about.network.linkUrl} target="_blank" rel="noreferrer" className="inline-block text-blue-400 hover:text-white font-medium transition-colors text-sm">
+              <motion.a {...subtleTap} href={content.about.network.linkUrl} target="_blank" rel="noreferrer" className="glass-action-soft inline-flex px-5 text-sm font-medium text-blue-300 hover:text-white">
                 {content.about.network.linkLabel} →
               </motion.a>
             </div>

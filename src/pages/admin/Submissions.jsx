@@ -43,16 +43,16 @@ function SubmissionCard({ item, onUpdate }) {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {item.status !== 'read' ? (
-            <button type="button" onClick={() => onUpdate(item, 'read')} className="rounded-xl border border-border bg-background px-3 py-2 text-xs text-muted-foreground hover:text-foreground">
+            <button type="button" onClick={() => onUpdate(item, 'read')} className="admin-toolbar-button min-h-[2.4rem] px-3 text-xs text-muted-foreground">
               Mark Read
             </button>
           ) : null}
           {item.status !== 'archived' ? (
-            <button type="button" onClick={() => onUpdate(item, 'archived')} className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+            <button type="button" onClick={() => onUpdate(item, 'archived')} className="admin-toolbar-button min-h-[2.4rem] border-amber-200 bg-amber-50 px-3 text-xs text-amber-700">
               Archive
             </button>
           ) : (
-            <button type="button" onClick={() => onUpdate(item, 'read')} className="rounded-xl border border-border bg-background px-3 py-2 text-xs text-muted-foreground hover:text-foreground">
+            <button type="button" onClick={() => onUpdate(item, 'read')} className="admin-toolbar-button min-h-[2.4rem] px-3 text-xs text-muted-foreground">
               Restore
             </button>
           )}
@@ -110,8 +110,8 @@ export default function AdminSubmissionsPage() {
               key={value}
               type="button"
               onClick={() => setView(value)}
-              className={`rounded-xl px-3.5 py-2 text-sm font-medium transition-colors ${
-                view === value ? 'admin-chip-active' : 'admin-chip'
+              className={`admin-chip ${
+                view === value ? 'admin-chip admin-chip-active' : 'admin-chip'
               }`}
             >
               {value.charAt(0).toUpperCase() + value.slice(1)}
@@ -122,12 +122,12 @@ export default function AdminSubmissionsPage() {
 
       <Tabs defaultValue="contact">
         <TabsList className="admin-chip-set mb-6 h-auto justify-start bg-transparent p-1">
-          <TabsTrigger value="contact" className="gap-2 rounded-xl px-3.5 py-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
+          <TabsTrigger value="contact" className="gap-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
             <Mail className="h-4 w-4" />
             Contact
             <span className="rounded-full bg-primary px-1.5 py-0.5 text-[10px] text-primary-foreground">{contacts.filter((item) => item.status === 'new').length}</span>
           </TabsTrigger>
-          <TabsTrigger value="prayer" className="gap-2 rounded-xl px-3.5 py-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
+          <TabsTrigger value="prayer" className="gap-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
             <Heart className="h-4 w-4" />
             Prayer
             <span className="rounded-full bg-primary px-1.5 py-0.5 text-[10px] text-primary-foreground">{prayers.filter((item) => item.status === 'new').length}</span>

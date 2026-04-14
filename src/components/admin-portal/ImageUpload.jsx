@@ -9,18 +9,18 @@ export default function ImageUpload({ label, value, busy = false, onUpload, onCh
     <div className="space-y-2">
       <label className="block text-sm font-medium text-foreground">{label}</label>
       {src ? (
-        <div className="relative inline-block overflow-hidden rounded-xl border border-border bg-muted">
+        <div className="relative inline-block overflow-hidden rounded-[1.1rem] border border-border bg-muted">
           <img src={src} alt={value?.alt || label} className="h-40 w-auto max-w-full object-cover" />
           <button
             type="button"
             onClick={() => onChange({ path: '', url: '', alt: '' })}
-            className="absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full border border-red-200 bg-white/95 text-red-500 shadow-sm"
+            className="admin-icon-button-danger absolute right-2 top-2 h-7 w-7 rounded-full bg-white/95"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
       ) : (
-        <label className="flex h-32 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/60 text-muted-foreground transition-colors hover:border-primary/40 hover:bg-muted">
+        <label className="flex h-32 cursor-pointer flex-col items-center justify-center rounded-[1.1rem] border-2 border-dashed border-border bg-muted/60 text-muted-foreground transition-colors hover:border-primary/40 hover:bg-muted">
           {busy ? (
             <Loader2 className="mb-2 h-5 w-5 animate-spin" />
           ) : (

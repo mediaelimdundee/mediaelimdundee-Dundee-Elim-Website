@@ -126,8 +126,8 @@ export default function AdminMinistriesPage() {
               key={value}
               type="button"
               onClick={() => setTagFilter(value)}
-              className={`rounded-xl px-3.5 py-2 text-sm font-medium transition-colors ${
-                tagFilter === value ? 'admin-chip-active' : 'admin-chip border border-transparent'
+              className={`admin-chip ${
+                tagFilter === value ? 'admin-chip admin-chip-active' : 'admin-chip border border-transparent'
               }`}
             >
               {value}
@@ -167,11 +167,11 @@ export default function AdminMinistriesPage() {
               <div className="mt-5 flex items-center gap-2">
                 <Button variant="outline" size="sm" className="flex-1" onClick={() => openEdit(ministry)}>Edit</Button>
                 {ministry.linkUrl ? (
-                  <a href={ministry.linkUrl} target="_blank" rel="noreferrer" className="rounded-xl border border-[#dbe1ea] bg-white p-2 text-muted-foreground shadow-sm hover:text-foreground">
+                  <a href={ministry.linkUrl} target="_blank" rel="noreferrer" className="admin-icon-button">
                     <ExternalLink className="h-4 w-4" />
                   </a>
                 ) : null}
-                <button type="button" onClick={() => removeRecord(ministry._key)} className="rounded-xl border border-red-200 bg-red-50 p-2 text-red-500 hover:text-red-600">
+                <button type="button" onClick={() => removeRecord(ministry._key)} className="admin-icon-button-danger">
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
@@ -244,7 +244,7 @@ export default function AdminMinistriesPage() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-3xl rounded-[1.5rem] border-[#dbe1ea] bg-white text-foreground shadow-[0_22px_50px_rgba(25,35,58,0.18)]">
+        <DialogContent className="max-w-3xl rounded-[1.35rem] border-[#dbe1ea] bg-white text-foreground shadow-[0_22px_50px_rgba(25,35,58,0.18)]">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl">{editingKey ? 'Edit Ministry' : 'Add Ministry'}</DialogTitle>
           </DialogHeader>

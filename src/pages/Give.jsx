@@ -3,6 +3,7 @@ import { ArrowRight, Globe, Heart, Mail, Phone } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
 import { useSiteContent } from '@/contexts/SiteContentContext';
 import { giveMethodConfig } from '@/lib/sitePresentation';
+import { fadeUp, subtleTap } from '@/lib/motion';
 import { formatPhoneHref, resolveMediaSrc } from '@/lib/siteContentUtils';
 
 const specularLine = (
@@ -53,20 +54,20 @@ export default function Give() {
               const Icon = style.Icon;
 
               return (
-                <motion.div key={`${method.kind}-${index}`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} viewport={{ once: true }} className="glass-panel p-8">
-                  <div className="p-3 rounded-xl inline-block mb-5" style={{ background: style.bg }}>
+                <motion.div key={`${method.kind}-${index}`} {...fadeUp} transition={{ ...fadeUp.transition, delay: index * 0.06 }} className="glass-panel p-8">
+                  <div className="glass-icon-badge mb-5" style={{ background: style.bg }}>
                     <Icon className={`w-7 h-7 ${style.color}`} />
                   </div>
                   <h3 className="font-display text-xl font-bold text-white mb-3">{method.title}</h3>
                   <p className="text-white/55 text-sm leading-relaxed mb-4">{method.description}</p>
                   {method.kind === 'online' && method.ctaLabel && method.ctaUrl && (
-                    <motion.a whileTap={{ scale: 0.95 }} href={method.ctaUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl lg-btn-primary text-sm font-semibold transition-all">
+                    <motion.a {...subtleTap} href={method.ctaUrl} target="_blank" rel="noreferrer" className="glass-action-primary px-5 text-sm font-semibold">
                       {method.ctaLabel}
                       <ArrowRight className="w-4 h-4" />
                     </motion.a>
                   )}
                   {method.kind === 'bank' && (
-                    <div className="rounded-xl p-4 text-sm space-y-2 mb-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div className="glass-inline-panel mb-4 space-y-2 p-4 text-sm">
                       {method.contactEmail && (
                         <div className="flex items-center gap-2 text-white/60">
                           <Mail className="w-4 h-4 text-blue-400 shrink-0" />
@@ -82,7 +83,7 @@ export default function Give() {
                     </div>
                   )}
                   {method.kind === 'inperson' && (
-                    <div className="rounded-xl p-4 text-sm" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div className="glass-inline-panel p-4 text-sm">
                       {method.addressLines.map((line) => (
                         <p key={line} className={line === method.addressLines[0] ? 'text-white font-medium mb-1' : 'text-white/50'}>
                           {line}
@@ -100,13 +101,13 @@ export default function Give() {
       <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="glass-panel flex flex-col gap-6 p-8 sm:flex-row sm:items-start">
-            <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(34,197,94,0.1)' }}>
+            <div className="glass-icon-badge shrink-0" style={{ background: 'rgba(34,197,94,0.1)' }}>
               <Globe className="w-7 h-7 text-green-400" />
             </div>
             <div>
               <h3 className="font-display text-xl font-bold text-white mb-2">{content.give.giftAid.title}</h3>
               <p className="text-white/55 text-sm leading-relaxed mb-4">{content.give.giftAid.description}</p>
-              <motion.a whileTap={{ scale: 0.95 }} href={content.give.giftAid.ctaUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-green-300 hover:text-white text-sm font-medium transition-all" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)' }}>
+              <motion.a {...subtleTap} href={content.give.giftAid.ctaUrl} target="_blank" rel="noreferrer" className="glass-action-soft inline-flex px-5 text-sm font-medium text-green-300 hover:text-white" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)' }}>
                 {content.give.giftAid.ctaLabel}
                 <ArrowRight className="w-4 h-4" />
               </motion.a>
@@ -134,11 +135,11 @@ export default function Give() {
           <h3 className="text-white font-semibold text-lg mb-2">{content.give.contactCta.title}</h3>
           <p className="text-white/50 text-sm mb-5">{content.give.contactCta.description}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <motion.a whileTap={{ scale: 0.95 }} href={`mailto:${content.settings.contact.email}`} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-blue-300 hover:text-white text-sm font-medium transition-all" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <motion.a {...subtleTap} href={`mailto:${content.settings.contact.email}`} className="glass-action-soft px-5 text-sm font-medium text-blue-300 hover:text-white">
               <Mail className="w-4 h-4" />
               {content.settings.contact.email}
             </motion.a>
-            <motion.a whileTap={{ scale: 0.95 }} href={`tel:${formatPhoneHref(content.settings.contact.phoneHref || content.settings.contact.phoneDisplay)}`} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-blue-300 hover:text-white text-sm font-medium transition-all" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <motion.a {...subtleTap} href={`tel:${formatPhoneHref(content.settings.contact.phoneHref || content.settings.contact.phoneDisplay)}`} className="glass-action-soft px-5 text-sm font-medium text-blue-300 hover:text-white">
               <Phone className="w-4 h-4" />
               {content.settings.contact.phoneDisplay}
             </motion.a>

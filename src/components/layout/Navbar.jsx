@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSiteContent } from '@/contexts/SiteContentContext';
+import { navPillSpring } from '@/lib/motion';
 import { resolveMediaSrc } from '@/lib/siteContentUtils';
 
 const navLinks = [
@@ -97,7 +98,7 @@ export default function Navbar() {
                   }}
                   initial={false}
                   animate={pillStyle}
-                  transition={{ type: 'spring', stiffness: 360, damping: 32, mass: 0.8 }}
+                  transition={navPillSpring}
                 />
               ) : null}
               {navLinks.map(link => (
@@ -111,7 +112,7 @@ export default function Navbar() {
                       delete linkRefs.current[link.path];
                     }
                   }}
-                  className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-all duration-200 ${
+                  className={`relative inline-flex min-h-[2.55rem] items-center rounded-full px-4 text-sm font-medium transition-colors duration-200 ${
                     location.pathname === link.path
                       ? 'text-white'
                       : 'text-white/60 hover:text-white'
@@ -125,10 +126,9 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="rounded-2xl p-2.5 transition-all md:hidden"
+              className="glass-light rounded-full p-2.5 transition-colors md:hidden"
               style={{
-                background: 'rgba(255,255,255,0.08)',
-                border: '1px solid rgba(255,255,255,0.14)',
+                borderColor: 'rgba(255,255,255,0.14)',
               }}
             >
               {isOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
@@ -145,16 +145,16 @@ export default function Navbar() {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden overflow-hidden"
             >
-              <div className="space-y-1 px-3 pb-4 pt-2"
+              <div className="space-y-2 px-3 pb-4 pt-2"
                 style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                 {navLinks.map(link => (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`block rounded-2xl px-4 py-3 text-sm font-medium transition-all ${
+                    className={`glass-chip block w-full px-4 py-3 text-sm font-medium transition-colors ${
                       location.pathname === link.path
-                        ? 'bg-white/10 text-white'
-                        : 'text-white/60 hover:bg-white/5 hover:text-white'
+                        ? 'glass-chip-active text-white'
+                        : 'text-white/60 hover:text-white'
                     }`}
                   >
                     {link.label}

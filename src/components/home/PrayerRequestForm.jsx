@@ -5,9 +5,9 @@ import { useSiteContent } from '@/contexts/SiteContentContext';
 import { openMailto } from '@/lib/mailto';
 import { createPrayerSubmission } from '@/lib/siteContentApi';
 import { isSupabaseConfigured } from '@/lib/supabaseClient';
+import { fadeUp, subtleTap } from '@/lib/motion';
 
-const inputClass = "w-full rounded-xl px-4 py-3 text-white placeholder-white/25 text-sm focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all bg-transparent";
-const inputStyle = { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' };
+const inputClass = "glass-input-field";
 
 export default function PrayerRequestForm() {
   const { content } = useSiteContent();
@@ -49,24 +49,17 @@ export default function PrayerRequestForm() {
   return (
     <section className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }} viewport={{ once: true }}
-          className="rounded-3xl p-10 relative overflow-hidden"
+        <motion.div
+          {...fadeUp}
+          className="glass-panel-strong p-10 relative"
           style={{
-            background: 'rgba(255,255,255,0.05)',
-            backdropFilter: 'blur(40px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-            border: '1px solid rgba(255,255,255,0.1)',
             boxShadow: '0 1px 0 0 rgba(255,255,255,0.12) inset, 0 24px 80px rgba(0,0,0,0.5)'
           }}>
-          {/* Specular */}
-          <div className="absolute inset-x-0 top-0 h-px rounded-t-3xl" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)' }} />
-          {/* Iridescent */}
-          <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.07), rgba(59,130,246,0.05), rgba(168,85,247,0.04))' }} />
+          <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.07), rgba(59,130,246,0.05), rgba(168,85,247,0.04))' }} />
 
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-2">
-              <div className="p-3 rounded-xl" style={{ background: 'rgba(168,85,247,0.15)' }}>
+              <div className="glass-icon-badge" style={{ background: 'rgba(168,85,247,0.15)' }}>
                 <Heart className="w-6 h-6 text-purple-400" />
               </div>
               <span className="text-purple-300/70 text-xs uppercase tracking-widest font-medium">{content.home.prayerRequest.eyebrow}</span>
@@ -80,13 +73,16 @@ export default function PrayerRequestForm() {
               {submitted ? (
                 <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center py-10 text-center">
-                  <div className="p-4 rounded-full mb-4" style={{ background: 'rgba(34,197,94,0.15)' }}>
-                    <CheckCircle className="w-10 h-10 text-green-400" />
-                  </div>
-                  <h3 className="font-display text-2xl font-bold text-white mb-2">{content.home.prayerRequest.successTitle}</h3>
-                  <p className="text-white/50 text-sm">{content.home.prayerRequest.successDescription}</p>
-                  <motion.button whileTap={{ scale: 0.95 }} onClick={() => { setSubmitted(false); setForm({ name: '', email: '', request: '', is_private: false }); }}
-                    className="mt-6 text-purple-400 hover:text-white text-sm transition-colors">
+                <div className="p-4 rounded-full mb-4" style={{ background: 'rgba(34,197,94,0.15)' }}>
+                  <CheckCircle className="w-10 h-10 text-green-400" />
+                </div>
+                <h3 className="font-display text-2xl font-bold text-white mb-2">{content.home.prayerRequest.successTitle}</h3>
+                <p className="text-white/50 text-sm">{content.home.prayerRequest.successDescription}</p>
+                  <motion.button
+                    {...subtleTap}
+                    onClick={() => { setSubmitted(false); setForm({ name: '', email: '', request: '', is_private: false }); }}
+                    className="glass-action-soft mt-6 px-5 text-sm text-purple-300 hover:text-white"
+                  >
                     {content.home.prayerRequest.resetLabel}
                   </motion.button>
                 </motion.div>
@@ -98,27 +94,27 @@ export default function PrayerRequestForm() {
                       <label className="block text-white/35 text-xs font-medium mb-2 uppercase tracking-wider">Your Name *</label>
                       <input required type="text" value={form.name}
                         onChange={e => setForm({ ...form, name: e.target.value })}
-                        placeholder="First name is fine" className={inputClass} style={inputStyle} />
+                        placeholder="First name is fine" className={inputClass} />
                     </div>
                     <div>
                       <label className="block text-white/35 text-xs font-medium mb-2 uppercase tracking-wider">Email (optional)</label>
                       <input type="email" value={form.email}
                         onChange={e => setForm({ ...form, email: e.target.value })}
-                        placeholder="For a personal response" className={inputClass} style={inputStyle} />
+                        placeholder="For a personal response" className={inputClass} />
                     </div>
                   </div>
                   <div>
                     <label className="block text-white/35 text-xs font-medium mb-2 uppercase tracking-wider">Your Prayer Request *</label>
                     <textarea required rows={4} value={form.request}
                       onChange={e => setForm({ ...form, request: e.target.value })}
-                      placeholder="Share what's on your heart..." className={`${inputClass} resize-none`} style={inputStyle} />
+                      placeholder="Share what's on your heart..." className={inputClass} />
                   </div>
 
                   <button type="button" onClick={() => setForm({ ...form, is_private: !form.is_private })}
-                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left transition-all"
+                    className="glass-inline-panel flex w-full items-center gap-3 px-4 py-3 text-left transition-all"
                     style={form.is_private
                       ? { background: 'rgba(168,85,247,0.12)', border: '1px solid rgba(168,85,247,0.3)' }
-                      : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                      : undefined}>
                     <Lock className={`w-4 h-4 shrink-0 ${form.is_private ? 'text-purple-400' : 'text-white/30'}`} />
                     <div>
                       <div className={`text-sm font-medium ${form.is_private ? 'text-white' : 'text-white/55'}`}>{content.home.prayerRequest.privacyLabel}</div>
@@ -130,13 +126,13 @@ export default function PrayerRequestForm() {
                   </button>
 
                   {error && (
-                    <div className="rounded-xl px-4 py-3 text-sm text-red-200" style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.2)' }}>
+                    <div className="rounded-[1.1rem] px-4 py-3 text-sm text-red-200" style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.2)' }}>
                       {error}
                     </div>
                   )}
 
-                  <motion.button whileTap={{ scale: 0.95 }} type="submit" disabled={loading}
-                    className="w-full py-4 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 text-white"
+                  <motion.button {...subtleTap} type="submit" disabled={loading}
+                    className="glass-action-primary w-full disabled:opacity-50 text-white"
                     style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.9), rgba(109,40,217,0.9))', border: '1px solid rgba(168,85,247,0.4)', boxShadow: '0 1px 0 rgba(255,255,255,0.15) inset, 0 4px 20px rgba(139,92,246,0.3)' }}>
                     <Send className="w-4 h-4" />
                     {loading ? 'Sending...' : content.home.prayerRequest.submitLabel}

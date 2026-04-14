@@ -88,7 +88,7 @@ export default function EventCard({ event, compact = false }) {
   }
 
   return (
-    <div className="glass-panel rounded-[1.6rem] transition-all hover:-translate-y-1 hover:border-blue-400/30">
+    <div className="glass-panel transition-all hover:-translate-y-1 hover:border-blue-400/30">
       {event.image_url && (
         <img src={event.image_url} alt={event.title} className="h-44 w-full object-cover opacity-85" />
       )}
@@ -133,7 +133,8 @@ export default function EventCard({ event, compact = false }) {
               href={buildGoogleCalendarUrl(event)}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 rounded-xl bg-blue-500/20 px-3 py-2 text-xs font-medium text-blue-300 transition-colors hover:bg-blue-500/35"
+              className="glass-action-soft flex items-center gap-1.5 px-4 text-xs font-medium text-blue-300 hover:bg-blue-500/35"
+              style={{ minHeight: '2.5rem', background: 'rgba(59,130,246,0.18)', border: '1px solid rgba(59,130,246,0.25)' }}
             >
               <ExternalLink className="w-3 h-3" /> Google Calendar
             </a>
@@ -141,7 +142,8 @@ export default function EventCard({ event, compact = false }) {
               href={buildOutlookUrl(event)}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 rounded-xl bg-blue-500/10 px-3 py-2 text-xs font-medium text-blue-200 transition-colors hover:bg-blue-500/25"
+              className="glass-action-soft flex items-center gap-1.5 px-4 text-xs font-medium text-blue-200 hover:bg-blue-500/25"
+              style={{ minHeight: '2.5rem' }}
             >
               <ExternalLink className="w-3 h-3" /> Outlook
             </a>

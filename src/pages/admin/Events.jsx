@@ -153,10 +153,10 @@ export default function AdminEventsPage() {
                 </td>
                 <td className="px-4 py-4">
                   <div className="flex items-center justify-end gap-2">
-                    <button type="button" onClick={() => openEdit(event)} className="rounded-xl border border-[#dbe1ea] bg-white p-2 text-muted-foreground shadow-sm hover:text-foreground">
+                    <button type="button" onClick={() => openEdit(event)} className="admin-icon-button">
                       <Pencil className="h-4 w-4" />
                     </button>
-                    <button type="button" onClick={() => removeRecord(event._key)} className="rounded-xl border border-red-200 bg-red-50 p-2 text-red-500 hover:text-red-600">
+                    <button type="button" onClick={() => removeRecord(event._key)} className="admin-icon-button-danger">
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
@@ -175,7 +175,7 @@ export default function AdminEventsPage() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-2xl rounded-[1.5rem] border-[#dbe1ea] bg-white text-foreground shadow-[0_22px_50px_rgba(25,35,58,0.18)]">
+        <DialogContent className="max-w-2xl rounded-[1.35rem] border-[#dbe1ea] bg-white text-foreground shadow-[0_22px_50px_rgba(25,35,58,0.18)]">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl">{editingKey ? 'Edit Event' : 'Add Event'}</DialogTitle>
           </DialogHeader>

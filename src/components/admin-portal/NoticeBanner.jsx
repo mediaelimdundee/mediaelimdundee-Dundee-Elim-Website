@@ -14,7 +14,7 @@ export default function NoticeBanner() {
 
   return (
     <div
-      className={`mb-6 flex items-start justify-between gap-4 rounded-2xl border px-4 py-3 text-sm ${
+      className={`mb-6 flex items-start justify-between gap-4 rounded-[1.15rem] border px-4 py-3 text-sm ${
         isError
           ? 'border-red-200 bg-red-50 text-red-700'
           : 'border-emerald-200 bg-emerald-50 text-emerald-700'

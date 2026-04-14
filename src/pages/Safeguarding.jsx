@@ -2,15 +2,9 @@ import { motion } from 'framer-motion';
 import { ExternalLink, ShieldCheck } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
 import { useSiteContent } from '@/contexts/SiteContentContext';
+import { fadeUp } from '@/lib/motion';
 import { resolveMediaSrc } from '@/lib/siteContentUtils';
 import { safeguardingActionStyles, safeguardingResourceConfig } from '@/lib/sitePresentation';
-
-const fadeUp = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 },
-  viewport: { once: true },
-};
 
 const specularLine = (
   <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
@@ -43,7 +37,7 @@ export default function Safeguarding() {
             {specularLine}
             <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.06), rgba(6,182,212,0.04))' }} />
             <div className="relative z-10">
-              <div className="p-3 rounded-xl inline-block mb-5" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <div className="glass-icon-badge mb-5" style={{ background: 'rgba(59,130,246,0.1)' }}>
                 <ShieldCheck className="w-7 h-7 text-blue-400" />
               </div>
               <h2 className="font-display text-3xl font-bold text-white mb-5">{content.safeguarding.statement.title}</h2>
@@ -73,12 +67,12 @@ export default function Safeguarding() {
               return (
                 <motion.div key={`${resource.kind}-${index}`} {...fadeUp} transition={{ delay: index * 0.1, duration: 0.6 }} className="glass-panel flex flex-col p-7">
                   {specularLine}
-                  <div className="p-3 rounded-xl inline-block mb-4" style={{ background: style.bg }}>
+                  <div className="glass-icon-badge mb-4" style={{ background: style.bg }}>
                     <Icon className={`w-6 h-6 ${style.color}`} />
                   </div>
                   <h3 className="text-white font-semibold text-lg mb-2">{resource.title}</h3>
                   <p className="text-white/55 text-sm leading-relaxed mb-5 flex-1">{resource.description}</p>
-                  <a href={resource.ctaUrl} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${action.className}`} style={action.style}>
+                  <a href={resource.ctaUrl} target="_blank" rel="noreferrer" className={`glass-action-soft inline-flex px-4 text-sm font-medium ${action.className}`} style={action.style}>
                     {resource.ctaLabel}
                     <ExternalLink className="w-4 h-4" />
                   </a>
@@ -95,7 +89,7 @@ export default function Safeguarding() {
             {specularLine}
             <h3 className="text-white font-semibold text-lg mb-2">{content.safeguarding.contact.title}</h3>
             <p className="text-white/50 text-sm mb-5">{content.safeguarding.contact.description}</p>
-            <a href={`mailto:${content.settings.contact.email}`} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-blue-300 hover:text-white text-sm font-medium transition-all" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <a href={`mailto:${content.settings.contact.email}`} className="glass-action-soft inline-flex px-5 text-sm font-medium text-blue-300 hover:text-white">
               {content.safeguarding.contact.buttonLabel}
             </a>
           </div>

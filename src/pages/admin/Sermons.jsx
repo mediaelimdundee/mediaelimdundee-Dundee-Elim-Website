@@ -625,23 +625,23 @@ export default function AdminSermonsPage() {
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="admin-chip-set mb-6 flex h-auto flex-wrap gap-2 bg-transparent p-1">
-          <TabsTrigger value="overview" className="gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
+          <TabsTrigger value="overview" className="gap-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
             <BarChart3 className="h-4 w-4" />
             Overview
           </TabsTrigger>
-          <TabsTrigger value="episodes" className="gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
+          <TabsTrigger value="episodes" className="gap-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
             <Headphones className="h-4 w-4" />
             Episodes
           </TabsTrigger>
-          <TabsTrigger value="podcast" className="gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
+          <TabsTrigger value="podcast" className="gap-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
             <Settings className="h-4 w-4" />
             Podcast Settings
           </TabsTrigger>
-          <TabsTrigger value="distribution" className="gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
+          <TabsTrigger value="distribution" className="gap-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
             <Rss className="h-4 w-4" />
             Distribution
           </TabsTrigger>
-          <TabsTrigger value="videos" className="gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
+          <TabsTrigger value="videos" className="gap-2 text-sm font-medium text-muted-foreground data-[state=active]:bg-[#4857d6] data-[state=active]:text-white">
             <Youtube className="h-4 w-4" />
             Video Feed
           </TabsTrigger>

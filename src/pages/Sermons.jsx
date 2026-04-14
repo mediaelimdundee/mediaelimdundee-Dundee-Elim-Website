@@ -4,6 +4,7 @@ import { Calendar, ChevronDown, Download, Filter, Music, Play, Radio, Search, X,
 import SEOHead from '@/components/SEOHead';
 import { useSiteContent } from '@/contexts/SiteContentContext';
 import { filterPublishedItems, resolveMediaSrc } from '@/lib/siteContentUtils';
+import { fadeUp } from '@/lib/motion';
 import { normalizeSnapshotVideoSermons, useYoutubeSermons } from '@/lib/youtubeSermons';
 
 const inputClass = 'glass-input-field';
@@ -103,7 +104,7 @@ export default function Sermons() {
           <a href={content.settings.links.youtubeUrl} target="_blank" rel="noreferrer" className="group glass-panel block p-4 transition-colors hover:border-red-500/30">
             {specularLine}
             <div className="flex items-center gap-4">
-              <div className="rounded-xl p-3" style={{ background: 'rgba(239,68,68,0.12)' }}>
+              <div className="glass-icon-badge" style={{ background: 'rgba(239,68,68,0.12)' }}>
                 <Youtube className="h-6 w-6 text-red-400" />
               </div>
               <div className="flex-1">
@@ -216,7 +217,7 @@ export default function Sermons() {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               {isLive ? (
                 <div className="glass-panel mb-6 overflow-hidden p-1 glow-blue">
-                  <div className="aspect-video w-full overflow-hidden rounded-2xl">
+                  <div className="aspect-video w-full overflow-hidden rounded-[1.4rem]">
                     <iframe className="h-full w-full" src={`https://www.youtube.com/embed/live_stream?channel=${content.settings.links.youtubeChannelId}&autoplay=1`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen title="Dundee Elim Live" />
                   </div>
                 </div>
@@ -237,7 +238,7 @@ export default function Sermons() {
                   )}
                 </div>
                 <p className="text-sm text-white/50">{isLive ? content.sermons.live.liveDescription : content.sermons.live.offlineDescription}</p>
-                <a href={content.settings.links.youtubeUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium text-red-300 transition-all hover:text-white" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.2)' }}>
+                <a href={content.settings.links.youtubeUrl} target="_blank" rel="noreferrer" className="glass-action-soft mt-4 inline-flex px-5 text-sm font-medium text-red-300 hover:text-white" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.2)' }}>
                   <Youtube className="h-4 w-4" />
                   {content.sermons.live.buttonLabel}
                 </a>
@@ -254,8 +255,8 @@ export default function Sermons() {
               ) : null}
 
               {selectedVideo ? (
-                <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="glass-panel mb-8 overflow-hidden p-1">
-                  <div className="aspect-video overflow-hidden rounded-2xl">
+                <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.42 }} className="glass-panel mb-8 overflow-hidden p-1">
+                  <div className="aspect-video overflow-hidden rounded-[1.4rem]">
                     <iframe className="h-full w-full" src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen title="Sermon" />
                   </div>
                   <div className="flex justify-end p-4">
@@ -269,7 +270,7 @@ export default function Sermons() {
 
               {!selectedVideo && filteredVideos.length > 0 ? (
                 <div className="glass-panel mb-8 overflow-hidden p-1">
-                  <div className="aspect-video overflow-hidden rounded-2xl">
+                  <div className="aspect-video overflow-hidden rounded-[1.4rem]">
                     <iframe className="h-full w-full" src={`https://www.youtube.com/embed/${filteredVideos[0].id}`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen title={content.sermons.videoSection.title} />
                   </div>
                 </div>
@@ -284,12 +285,10 @@ export default function Sermons() {
                   {filteredVideos.map((video, index) => (
                     <motion.div
                       key={`${video.id}-${index}`}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.04 }}
-                      viewport={{ once: true }}
+                      {...fadeUp}
+                      transition={{ ...fadeUp.transition, delay: index * 0.03 }}
                       onClick={() => setSelectedVideo(video.id)}
-                      className="glass-panel group relative cursor-pointer overflow-hidden transition-all hover:scale-[1.02]"
+                      className="glass-panel group relative cursor-pointer overflow-hidden transition-transform hover:-translate-y-1"
                     >
                       {specularLine}
                       <div className="relative aspect-video bg-black/40">
@@ -325,10 +324,10 @@ export default function Sermons() {
               ) : (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {filteredAudio.map((sermon, index) => (
-                    <motion.div key={sermon.id || `${sermon.title}-${index}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} className="glass-panel relative flex flex-col gap-4 p-6">
+                    <motion.div key={sermon.id || `${sermon.title}-${index}`} initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.42, delay: index * 0.04 }} className="glass-panel relative flex flex-col gap-4 p-6">
                       {specularLine}
                       <div className="flex items-start gap-3">
-                        <div className="rounded-xl p-3 shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                        <div className="glass-icon-badge shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
                           <Music className="h-5 w-5 text-blue-400" />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -351,7 +350,7 @@ export default function Sermons() {
                           <audio controls className="h-9 w-full" style={{ filter: 'invert(0.8) hue-rotate(180deg)' }}>
                             <source src={sermon.audio_url} />
                           </audio>
-                          <a href={sermon.audio_url} download className="flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-blue-300 transition-colors hover:text-white" style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.2)' }}>
+                          <a href={sermon.audio_url} download className="glass-action-soft flex items-center justify-center px-4 text-xs font-medium text-blue-300 hover:text-white" style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.2)', minHeight: '2.5rem' }}>
                             <Download className="h-4 w-4" />
                             Download
                           </a>

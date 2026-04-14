@@ -24,12 +24,12 @@ export default function CalendarWeekView({ events, currentWeek, setCurrentWeek, 
   }
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden">
+    <div className="glass-panel overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
         <button
           onClick={() => setCurrentWeek(subWeeks(currentWeek, 1))}
-          className="p-2 rounded-lg glass-light text-white/60 hover:text-white transition-colors"
+          className="glass-light p-2 text-white/60 transition-colors hover:text-white"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -38,7 +38,7 @@ export default function CalendarWeekView({ events, currentWeek, setCurrentWeek, 
         </h2>
         <button
           onClick={() => setCurrentWeek(addWeeks(currentWeek, 1))}
-          className="p-2 rounded-lg glass-light text-white/60 hover:text-white transition-colors"
+          className="glass-light p-2 text-white/60 transition-colors hover:text-white"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -71,7 +71,7 @@ export default function CalendarWeekView({ events, currentWeek, setCurrentWeek, 
                 {dayEvents.map((e, ei) => (
                   <div
                     key={ei}
-                    className={`rounded-lg px-2 py-1 border-l-2 text-xs font-medium truncate ${CATEGORY_COLORS[e.category] || 'bg-white/10 border-white/30 text-white/60'}`}
+                    className={`rounded-[1rem] px-2.5 py-1.5 border-l-2 text-xs font-medium truncate ${CATEGORY_COLORS[e.category] || 'bg-white/10 border-white/30 text-white/60'}`}
                   >
                     <div className="truncate">{e.title}</div>
                     {e.time && <div className="opacity-70 text-xs">{e.time}</div>}

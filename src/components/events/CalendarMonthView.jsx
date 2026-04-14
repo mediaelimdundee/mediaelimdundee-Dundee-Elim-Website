@@ -41,12 +41,12 @@ export default function CalendarMonthView({ events, onDaySelect, selectedDay }) 
   }
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden">
+    <div className="glass-panel overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
         <button
           onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-          className="p-2 rounded-lg glass-light text-white/60 hover:text-white transition-colors"
+          className="glass-light p-2 text-white/60 transition-colors hover:text-white"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -55,7 +55,7 @@ export default function CalendarMonthView({ events, onDaySelect, selectedDay }) 
         </h2>
         <button
           onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-          className="p-2 rounded-lg glass-light text-white/60 hover:text-white transition-colors"
+          className="glass-light p-2 text-white/60 transition-colors hover:text-white"
         >
           <ChevronRight className="w-4 h-4" />
         </button>

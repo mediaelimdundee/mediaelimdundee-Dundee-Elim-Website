@@ -19,7 +19,7 @@ import { listSubmissions } from '@/lib/siteContentApi';
 function StatCard({ label, count, icon: Icon, to, sublabel, tone }) {
   return (
     <Link to={to} className="admin-surface group p-5 transition-transform hover:-translate-y-0.5">
-      <div className={`mb-3 flex h-10 w-10 items-center justify-center rounded-2xl ${tone}`}>
+      <div className={`mb-3 flex h-11 w-11 items-center justify-center rounded-[1.05rem] ${tone}`}>
         <Icon className="h-5 w-5" />
       </div>
       <div className="text-3xl font-semibold tracking-tight text-foreground">{count}</div>
@@ -130,7 +130,7 @@ export default function AdminDashboardPage() {
           { to: '/admin/messages', icon: MessageSquare, label: 'Messages', description: 'Review contact form messages and prayer requests.' },
         ].map((item) => (
           <Link key={item.to} to={item.to} className="admin-surface group p-5">
-            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-600">
+            <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-[1.05rem] bg-blue-500/10 text-blue-600">
               <item.icon className="h-5 w-5" />
             </div>
             <p className="text-sm font-medium text-foreground">{item.label}</p>
