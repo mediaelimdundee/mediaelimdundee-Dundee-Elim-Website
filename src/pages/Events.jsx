@@ -40,37 +40,35 @@ export default function Events() {
     <div className="pb-20">
       <SEOHead title={content.events.seo.title} description={content.events.seo.description} path="/events" />
 
-      <div className="relative pt-32 pb-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <div className="page-hero">
+        <div className="page-hero-media">
           <img src={resolveMediaSrc(content.events.header.image)} alt={content.events.header.image.alt || 'Events at Dundee Elim'} className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
+          <div className="page-hero-overlay" />
         </div>
-        <div className="orb w-96 h-96 bg-blue-800 top-0 right-1/3" />
-        <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.events.header.eyebrow}</span>
-          <h1 className="font-display text-5xl sm:text-6xl font-bold text-white mt-3 mb-4">
+        <div className="page-hero-inner">
+          <span className="page-eyebrow">{content.events.header.eyebrow}</span>
+          <h1 className="page-title">
             {content.events.header.titleLead} <span className="text-gradient">{content.events.header.titleHighlight}</span>
           </h1>
-          <p className="text-white/55 max-w-2xl mx-auto">{content.events.header.description}</p>
+          <p className="page-description">{content.events.header.description}</p>
         </div>
       </div>
 
       <div className="px-4 mb-8">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex gap-1 rounded-2xl p-1" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="glass-chip-set">
             {views.map(({ key, label, Icon }) => (
-              <button
-                key={key}
-                onClick={() => {
-                  setView(key);
-                  setSelectedDay(null);
-                }}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${view === key ? 'text-white' : 'text-white/50 hover:text-white'}`}
-                style={view === key ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.12)' } : {}}
-              >
-                <Icon className="w-4 h-4" />
-                <span className="hidden sm:inline">{label}</span>
-              </button>
+                <button
+                  key={key}
+                  onClick={() => {
+                    setView(key);
+                    setSelectedDay(null);
+                  }}
+                  className={`glass-chip flex items-center gap-2 ${view === key ? 'glass-chip-active' : ''}`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="hidden sm:inline">{label}</span>
+                </button>
             ))}
           </div>
 
@@ -79,10 +77,7 @@ export default function Events() {
               <button
                 key={category}
                 onClick={() => setFilter(category)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${filter === category ? 'text-white' : 'text-white/45 hover:text-white'}`}
-                style={filter === category
-                  ? { background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }
-                  : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
+                className={`glass-chip ${filter === category ? 'glass-chip-active' : ''}`}
               >
                 {content.events.categoryLabels[category] || category}
               </button>
@@ -101,7 +96,7 @@ export default function Events() {
                 </motion.div>
               ))}
               {filtered.length === 0 && (
-                <p className="col-span-3 text-center text-white/30 py-16">No events found for this category.</p>
+                <p className="col-span-3 glass-panel py-16 text-center text-white/35">No events found for this category.</p>
               )}
             </div>
           )}
@@ -114,7 +109,7 @@ export default function Events() {
               <div>
                 {selectedDay
                   ? <DayPanel day={selectedDay} events={filtered} onClose={() => setSelectedDay(null)} />
-                  : <div className="lg-surface rounded-2xl p-6 text-center text-white/25 text-sm h-full flex items-center justify-center relative overflow-hidden">{specularLine}Click a day to see its events</div>}
+                  : <div className="glass-panel flex h-full items-center justify-center p-6 text-center text-sm text-white/35">{specularLine}Click a day to see its events</div>}
               </div>
             </div>
           )}
@@ -127,7 +122,7 @@ export default function Events() {
               <div>
                 {selectedDay
                   ? <DayPanel day={selectedDay} events={filtered} onClose={() => setSelectedDay(null)} />
-                  : <div className="lg-surface rounded-2xl p-6 text-center text-white/25 text-sm h-full flex items-center justify-center min-h-[200px] relative overflow-hidden">{specularLine}Click a day to see its events</div>}
+                  : <div className="glass-panel flex min-h-[200px] h-full items-center justify-center p-6 text-center text-sm text-white/35">{specularLine}Click a day to see its events</div>}
               </div>
             </div>
           )}

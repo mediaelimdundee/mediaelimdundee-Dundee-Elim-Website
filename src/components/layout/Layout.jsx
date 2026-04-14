@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import LiquidGlassBackground from './LiquidGlassBackground';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -11,10 +12,11 @@ function ScrollToTop() {
 
 export default function Layout() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-x-hidden bg-transparent">
+      <LiquidGlassBackground />
       <ScrollToTop />
       <Navbar />
-      <main>
+      <main className="relative">
         <Outlet />
       </main>
       <Footer />

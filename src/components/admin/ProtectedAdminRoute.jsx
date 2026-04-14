@@ -7,10 +7,10 @@ export default function ProtectedAdminRoute({ children }) {
 
   if (auth.loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-4">
-        <div className="lg-surface rounded-3xl px-8 py-6 text-center">
-          <div className="text-white font-semibold">Checking admin session...</div>
-          <div className="text-white/45 text-sm mt-2">Please wait.</div>
+      <div className="admin-portal-theme flex min-h-screen items-center justify-center bg-background px-4">
+        <div className="rounded-xl border border-border bg-card px-8 py-6 text-center shadow-sm">
+          <div className="font-medium text-foreground">Checking admin session...</div>
+          <div className="mt-2 text-sm text-muted-foreground">Please wait.</div>
         </div>
       </div>
     );

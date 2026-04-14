@@ -1,4 +1,4 @@
-import { parseSiteContent } from '@/content/siteContentSchema';
+import { parseSiteContent } from './siteContentSchema.js';
 
 function media(url, alt = '') {
   return { path: url, url, alt };
@@ -251,6 +251,18 @@ export const defaultSiteContent = parseSiteContent({
       { id: 'Wb56QcxoD24', title: 'Your Prayers Are Not Wasted', speaker: 'Ps. Steven Holmes', series: 'Sunday Service', date: '2026-02-02', description: 'Encouragement to keep praying with confidence even when answers seem delayed.' },
     ],
     audioSermons: [],
+    podcast: {
+      title: 'Dundee Elim Sermons',
+      description: 'Weekly sermons and Bible teaching from Dundee Elim Church in Dundee, Scotland.',
+      churchName: 'Dundee Elim Church',
+      author: 'Ps. Steven Holmes',
+      email: 'dundee.elim@gmail.com',
+      website: 'https://www.dundee-elim.org.uk',
+      category: 'Religion & Spirituality',
+      language: 'en-gb',
+      copyright: 'Dundee Elim Church',
+      coverArt: media('/images/branding/dundee-elim-logo.png', 'Dundee Elim Sermons cover art'),
+    },
   },
   events: {
     seo: {

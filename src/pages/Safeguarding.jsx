@@ -23,24 +23,23 @@ export default function Safeguarding() {
     <div className="pb-20">
       <SEOHead title={content.safeguarding.seo.title} description={content.safeguarding.seo.description} path="/safeguarding" />
 
-      <div className="relative pt-32 pb-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <div className="page-hero">
+        <div className="page-hero-media">
           <img src={resolveMediaSrc(content.safeguarding.header.image)} alt={content.safeguarding.header.image.alt || 'Safeguarding at Dundee Elim'} className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
+          <div className="page-hero-overlay" />
         </div>
-        <div className="orb w-80 h-80 bg-blue-800 top-0 left-1/3" />
-        <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.safeguarding.header.eyebrow}</span>
-          <h1 className="font-display text-5xl sm:text-6xl font-bold text-white mt-3 mb-4">
-            {content.safeguarding.header.titleLead}<span className="text-gradient">{content.safeguarding.header.titleHighlight}</span>
+        <div className="page-hero-inner">
+          <span className="page-eyebrow">{content.safeguarding.header.eyebrow}</span>
+          <h1 className="page-title">
+            {content.safeguarding.header.titleLead} <span className="text-gradient">{content.safeguarding.header.titleHighlight}</span>
           </h1>
-          <p className="text-white/55 max-w-2xl mx-auto">{content.safeguarding.header.description}</p>
+          <p className="page-description">{content.safeguarding.header.description}</p>
         </div>
       </div>
 
-      <section className="py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.div {...fadeUp} className="lg-surface rounded-3xl p-10 relative overflow-hidden">
+      <section className="section-wrap">
+        <div className="section-inner-narrow">
+          <motion.div {...fadeUp} className="glass-panel-strong p-10">
             {specularLine}
             <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.06), rgba(6,182,212,0.04))' }} />
             <div className="relative z-10">
@@ -60,9 +59,11 @@ export default function Safeguarding() {
         </div>
       </section>
 
-      <section className="py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-2xl font-bold text-white text-center mb-8">{content.safeguarding.resourcesTitle}</h2>
+      <section className="section-wrap">
+        <div className="section-inner-narrow">
+          <div className="section-heading">
+            <h2 className="section-title text-2xl sm:text-3xl">{content.safeguarding.resourcesTitle}</h2>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {content.safeguarding.resources.map((resource, index) => {
               const style = safeguardingResourceConfig[resource.kind] || safeguardingResourceConfig.elim;
@@ -70,7 +71,7 @@ export default function Safeguarding() {
               const Icon = style.Icon;
 
               return (
-                <motion.div key={`${resource.kind}-${index}`} {...fadeUp} transition={{ delay: index * 0.1, duration: 0.6 }} className="lg-surface rounded-2xl p-7 flex flex-col relative overflow-hidden">
+                <motion.div key={`${resource.kind}-${index}`} {...fadeUp} transition={{ delay: index * 0.1, duration: 0.6 }} className="glass-panel flex flex-col p-7">
                   {specularLine}
                   <div className="p-3 rounded-xl inline-block mb-4" style={{ background: style.bg }}>
                     <Icon className={`w-6 h-6 ${style.color}`} />
@@ -88,9 +89,9 @@ export default function Safeguarding() {
         </div>
       </section>
 
-      <section className="py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="lg-surface rounded-2xl p-8 text-center relative overflow-hidden">
+      <section className="section-wrap pt-6">
+        <div className="section-inner-narrow">
+          <div className="glass-panel p-8 text-center">
             {specularLine}
             <h3 className="text-white font-semibold text-lg mb-2">{content.safeguarding.contact.title}</h3>
             <p className="text-white/50 text-sm mb-5">{content.safeguarding.contact.description}</p>

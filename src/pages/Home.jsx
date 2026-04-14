@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, ChevronRight, MapPin, Play, Youtube } from 'lucide-react';
+import { ArrowRight, ChevronRight, Mail, MapPin, Play, Youtube } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
 import PrayerRequestForm from '@/components/home/PrayerRequestForm';
 import { useSiteContent } from '@/contexts/SiteContentContext';
 import { resolveMediaSrc } from '@/lib/siteContentUtils';
 import { beliefConfig, quickInfoConfig } from '@/lib/sitePresentation';
+import { normalizeSnapshotVideoSermons, useYoutubeSermons } from '@/lib/youtubeSermons';
 
 function HeroSlideshow({ slides }) {
   const [current, setCurrent] = useState(0);
@@ -50,21 +51,44 @@ function HeroSlideshow({ slides }) {
 
 export default function Home() {
   const { content } = useSiteContent();
-  const latestVideoId = content.sermons.videoSermons[0]?.id || null;
+  const youtubeFeed = useYoutubeSermons(content.settings.links.youtubeChannelId);
+  const fallbackVideos = normalizeSnapshotVideoSermons(content.sermons.videoSermons);
+  const latestVideoId = youtubeFeed.videos[0]?.id || fallbackVideos[0]?.id || null;
+  const trustPoints = [
+    {
+      title: content.home.hero.serviceBadgeLabel,
+      value: `${content.home.hero.serviceBadgeDay} · ${content.home.hero.serviceBadgeTime}`,
+      Icon: Play,
+      bg: 'rgba(96,165,250,0.14)',
+      color: 'text-blue-200',
+    },
+    {
+      title: 'Find us',
+      value: content.settings.contact.addressShort,
+      Icon: MapPin,
+      bg: 'rgba(56,189,248,0.12)',
+      color: 'text-cyan-200',
+    },
+    {
+      title: 'Get in touch',
+      value: content.settings.contact.email,
+      Icon: Mail,
+      bg: 'rgba(167,139,250,0.14)',
+      color: 'text-violet-200',
+    },
+  ];
 
   return (
     <div className="overflow-x-hidden">
       <SEOHead title={content.home.seo.title} description={content.home.seo.description} path="/" />
 
-      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-24">
+      <section className="relative flex min-h-screen items-center justify-center px-4 pb-24 pt-28 sm:pt-32">
         <HeroSlideshow slides={content.home.hero.slides} />
-        <div className="orb w-[600px] h-[600px] bg-blue-600 top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2" />
-        <div className="orb w-[400px] h-[400px] bg-violet-600 bottom-1/4 right-1/4" />
 
-        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
+        <div className="relative z-10 mx-auto max-w-5xl text-center">
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <span
-              className="inline-block px-5 py-2 rounded-full text-blue-200 text-sm font-medium tracking-widest uppercase"
+              className="inline-block rounded-full px-5 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-blue-200"
               style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)' }}
             >
               {content.home.hero.eyebrow}
@@ -75,7 +99,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15 }}
-            className="font-display text-5xl sm:text-6xl lg:text-8xl font-bold text-white mt-6 mb-6 glow-text leading-tight"
+            className="mt-6 mb-6 font-display text-5xl font-bold leading-[0.92] text-white glow-text sm:text-6xl lg:text-[5.35rem]"
           >
             {content.home.hero.titleLead}
             <br />
@@ -86,7 +110,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white/60 text-lg sm:text-xl max-w-2xl mx-auto mb-8 leading-relaxed"
+            className="mx-auto mb-8 max-w-3xl text-base leading-8 text-white/62 sm:text-xl"
           >
             {content.home.hero.description}
           </motion.p>
@@ -95,33 +119,22 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col justify-center gap-4 sm:flex-row"
           >
             <motion.div whileTap={{ scale: 0.95 }}>
-              <Link to={content.home.hero.primaryCtaPath} className="group lg-btn-primary px-8 py-4 rounded-2xl transition-all flex items-center gap-2 justify-center text-lg">
+              <Link to={content.home.hero.primaryCtaPath} className="group flex items-center justify-center gap-2 rounded-2xl px-8 py-4 text-base transition-all lg-btn-primary sm:text-lg">
                 {content.home.hero.primaryCtaLabel}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
             <motion.div whileTap={{ scale: 0.95 }}>
-              <Link to={content.home.hero.secondaryCtaPath} className="lg-btn-ghost px-8 py-4 rounded-2xl transition-all flex items-center gap-2 justify-center text-lg">
+              <Link to={content.home.hero.secondaryCtaPath} className="flex items-center justify-center gap-2 rounded-2xl px-8 py-4 text-base transition-all lg-btn-ghost sm:text-lg">
                 <Play className="w-5 h-5" />
                 {content.home.hero.secondaryCtaLabel}
               </Link>
             </motion.div>
           </motion.div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          className="absolute bottom-24 right-6 sm:right-12 rounded-2xl p-5 text-right hidden sm:block lg-surface"
-        >
-          <div className="text-blue-300/70 text-xs uppercase tracking-wider mb-1">{content.home.hero.serviceBadgeLabel}</div>
-          <div className="text-white font-bold text-2xl">{content.home.hero.serviceBadgeDay}</div>
-          <div className="text-blue-200 font-semibold text-lg">{content.home.hero.serviceBadgeTime}</div>
-        </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
@@ -134,8 +147,8 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <section className="py-12 px-4">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <section className="px-4 py-6 sm:py-8">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-3">
           {content.home.quickInfo.items.map((item, index) => {
             const style = quickInfoConfig[item.kind] || quickInfoConfig.service;
             const Icon = style.Icon;
@@ -147,9 +160,8 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="lg-surface rounded-2xl p-6 flex items-center gap-4 hover:scale-[1.02] transition-transform relative overflow-hidden"
+                className="glass-panel flex items-center gap-4 p-6 transition-transform hover:scale-[1.02]"
               >
-                <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
                 <div className="p-3 rounded-xl shrink-0" style={{ background: style.bg }}>
                   <Icon className={`w-6 h-6 ${style.color}`} />
                 </div>
@@ -358,37 +370,66 @@ export default function Home() {
 
       <PrayerRequestForm />
 
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto">
+      <section className="px-4 pb-20 pt-12 sm:pt-14">
+        <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             viewport={{ once: true }}
-            className="lg-surface lg-iridescent rounded-3xl p-12 text-center relative overflow-hidden"
+            className="glass-panel-strong lg-iridescent p-8 sm:p-10 lg:p-12"
           >
             <div className="absolute inset-x-0 top-0 h-px rounded-t-3xl" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)' }} />
-            <div className="orb w-64 h-64 bg-blue-500 -top-10 -right-10" />
-            <div className="relative z-10">
-              <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">{content.home.cta.title}</h2>
-              <p className="text-white/60 text-lg mb-8 max-w-xl mx-auto">{content.home.cta.description}</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.div whileTap={{ scale: 0.95 }}>
-                  <Link to={content.home.cta.primaryPath} className="px-8 py-4 rounded-2xl lg-btn-primary transition-all text-lg">
-                    {content.home.cta.primaryLabel}
-                  </Link>
-                </motion.div>
-                <motion.div whileTap={{ scale: 0.95 }}>
-                  <a
-                    href={content.home.cta.secondaryUrl || content.settings.links.mapsUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-8 py-4 rounded-2xl lg-btn-ghost transition-all flex items-center gap-2 justify-center text-lg"
-                  >
-                    <MapPin className="w-5 h-5" />
-                    {content.home.cta.secondaryLabel}
-                  </a>
-                </motion.div>
+            <div className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+              <div className="text-center lg:text-left">
+                <span className="inline-block text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-blue-200/75">
+                  Plan Your Visit
+                </span>
+                <h2 className="mt-4 font-display text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-[3rem]">
+                  {content.home.cta.title}
+                </h2>
+                <p className="mt-4 max-w-2xl text-base leading-7 text-white/60 sm:text-lg lg:max-w-xl">
+                  {content.home.cta.description}
+                </p>
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                  <motion.div whileTap={{ scale: 0.95 }}>
+                    <Link to={content.home.cta.primaryPath} className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-3.5 text-base lg-btn-primary transition-all">
+                      {content.home.cta.primaryLabel}
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </motion.div>
+                  <motion.div whileTap={{ scale: 0.95 }}>
+                    <a
+                      href={content.home.cta.secondaryUrl || content.settings.links.mapsUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-3.5 text-base lg-btn-ghost transition-all"
+                    >
+                      <MapPin className="w-4 h-4" />
+                      {content.home.cta.secondaryLabel}
+                    </a>
+                  </motion.div>
+                </div>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                {trustPoints.map((item, index) => {
+                  const Icon = item.Icon;
+
+                  return (
+                    <div key={`closing-${item.title}-${index}`} className="glass-panel px-4 py-4 text-left">
+                      <div className="flex items-start gap-3">
+                        <div className="rounded-2xl p-3" style={{ background: item.bg }}>
+                          <Icon className={`h-4 w-4 ${item.color}`} />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/40">{item.title}</div>
+                          <div className="mt-1 text-sm font-medium leading-6 text-white/90">{item.value}</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </motion.div>

@@ -16,26 +16,24 @@ export default function Give() {
     <div className="pb-20">
       <SEOHead title={content.give.seo.title} description={content.give.seo.description} path="/give" />
 
-      <div className="relative pt-32 pb-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <div className="page-hero">
+        <div className="page-hero-media">
           <img src={resolveMediaSrc(content.give.header.image)} alt={content.give.header.image.alt || 'Giving at Dundee Elim'} className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
+          <div className="page-hero-overlay" />
         </div>
-        <div className="orb w-96 h-96 bg-green-800 top-0 right-1/3" />
-        <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.give.header.eyebrow}</span>
-          <h1 className="font-display text-5xl sm:text-6xl font-bold text-white mt-3 mb-4">
+        <div className="page-hero-inner">
+          <span className="page-eyebrow">{content.give.header.eyebrow}</span>
+          <h1 className="page-title">
             {content.give.header.titleLead} <span className="text-gradient">{content.give.header.titleHighlight}</span>
           </h1>
-          <p className="text-white/55 max-w-3xl mx-auto text-lg leading-relaxed italic">{content.give.header.quote}</p>
-          <p className="text-blue-300/70 text-sm mt-2 font-medium">— {content.give.header.quoteCitation}</p>
+          <p className="mx-auto mt-5 max-w-3xl text-lg italic leading-8 text-white/58">{content.give.header.quote}</p>
+          <p className="mt-2 text-sm font-medium text-blue-300/72">— {content.give.header.quoteCitation}</p>
         </div>
       </div>
 
       <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="lg-surface rounded-3xl p-10 text-center relative overflow-hidden mb-10">
-            {specularLine}
+          <div className="glass-panel-strong mb-10 p-10 text-center">
             <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.06), rgba(139,92,246,0.06))' }} />
             <div className="relative z-10">
               <Heart className="w-10 h-10 text-red-400 mx-auto mb-5" />
@@ -48,15 +46,14 @@ export default function Give() {
 
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-white text-center mb-10">{content.give.methodsTitle}</h2>
+          <h2 className="section-title text-center">{content.give.methodsTitle}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {content.give.methods.map((method, index) => {
               const style = giveMethodConfig[method.kind] || giveMethodConfig.online;
               const Icon = style.Icon;
 
               return (
-                <motion.div key={`${method.kind}-${index}`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} viewport={{ once: true }} className="lg-surface rounded-2xl p-8 relative overflow-hidden">
-                  {specularLine}
+                <motion.div key={`${method.kind}-${index}`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} viewport={{ once: true }} className="glass-panel p-8">
                   <div className="p-3 rounded-xl inline-block mb-5" style={{ background: style.bg }}>
                     <Icon className={`w-7 h-7 ${style.color}`} />
                   </div>
@@ -102,8 +99,7 @@ export default function Give() {
 
       <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="lg-surface rounded-2xl p-8 flex flex-col sm:flex-row gap-6 items-start relative overflow-hidden">
-            {specularLine}
+          <div className="glass-panel flex flex-col gap-6 p-8 sm:flex-row sm:items-start">
             <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(34,197,94,0.1)' }}>
               <Globe className="w-7 h-7 text-green-400" />
             </div>
@@ -121,11 +117,10 @@ export default function Give() {
 
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-white text-center mb-10">{content.give.impact.title}</h2>
+          <h2 className="section-title text-center">{content.give.impact.title}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {content.give.impact.items.map((item) => (
-              <div key={item.label} className="lg-surface rounded-2xl p-6 text-center relative overflow-hidden">
-                {specularLine}
+              <div key={item.label} className="glass-panel p-6 text-center">
                 <div className="text-3xl mb-3">{item.icon}</div>
                 <p className="text-white/60 text-sm font-medium">{item.label}</p>
               </div>
@@ -135,8 +130,7 @@ export default function Give() {
       </section>
 
       <section className="py-12 px-4">
-        <div className="max-w-4xl mx-auto lg-surface rounded-2xl p-8 text-center relative overflow-hidden">
-          {specularLine}
+        <div className="glass-panel section-inner-narrow p-8 text-center">
           <h3 className="text-white font-semibold text-lg mb-2">{content.give.contactCta.title}</h3>
           <p className="text-white/50 text-sm mb-5">{content.give.contactCta.description}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">

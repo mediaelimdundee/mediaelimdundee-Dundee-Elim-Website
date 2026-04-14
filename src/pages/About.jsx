@@ -22,18 +22,17 @@ export default function About() {
     <div className="pb-20">
       <SEOHead title={content.about.seo.title} description={content.about.seo.description} path="/about" />
 
-      <div className="relative pt-32 pb-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <div className="page-hero">
+        <div className="page-hero-media">
           <img src={resolveMediaSrc(content.about.header.image)} alt={content.about.header.image.alt || 'About Dundee Elim'} className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
+          <div className="page-hero-overlay" />
         </div>
-        <div className="orb w-[500px] h-[500px] bg-blue-700 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-        <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.about.header.eyebrow}</span>
-          <h1 className="font-display text-5xl sm:text-6xl font-bold text-white mt-3 mb-6">
+        <div className="page-hero-inner">
+          <span className="page-eyebrow">{content.about.header.eyebrow}</span>
+          <h1 className="page-title">
             {content.about.header.titleLead} <span className="text-gradient">{content.about.header.titleHighlight}</span>
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed">{content.about.header.description}</p>
+          <p className="page-description">{content.about.header.description}</p>
         </div>
       </div>
 
@@ -41,7 +40,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div {...fadeUp} className="relative">
             <div className="absolute -inset-4 rounded-3xl" style={{ background: 'radial-gradient(circle, rgba(80,130,255,0.12) 0%, transparent 70%)' }} />
-            <div className="relative lg-surface rounded-3xl p-1.5">
+            <div className="glass-panel-strong p-1.5">
               <img src={resolveMediaSrc(content.about.pastors.image)} alt={content.about.pastors.image.alt || 'Pastors'} className="rounded-2xl w-full object-cover shadow-2xl" />
             </div>
           </motion.div>
@@ -69,7 +68,7 @@ export default function About() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {content.about.sundayExpectations.items.map((item) => (
-              <motion.div key={item.number} {...fadeUp} className="lg-surface rounded-2xl p-6 relative overflow-hidden">
+              <motion.div key={item.number} {...fadeUp} className="glass-panel p-6">
                 {specularLine}
                 <div className="text-4xl font-display font-bold mb-3" style={{ color: 'rgba(96,165,250,0.2)' }}>{item.number}</div>
                 <h3 className="text-white font-semibold text-lg mb-2">{item.title}</h3>
@@ -77,7 +76,7 @@ export default function About() {
               </motion.div>
             ))}
           </div>
-          <div className="mt-5 lg-surface rounded-2xl p-6 relative overflow-hidden">
+          <div className="glass-panel mt-5 p-6">
             {specularLine}
             <p className="text-white/55 text-sm leading-relaxed text-center whitespace-pre-line">
               <span className="text-blue-300 font-medium">Note:</span> {content.about.sundayExpectations.note}
@@ -97,7 +96,7 @@ export default function About() {
               const Icon = style.Icon;
 
               return (
-                <motion.div key={card.title} {...fadeUp} className="lg-surface rounded-2xl p-8 relative overflow-hidden">
+                <motion.div key={card.title} {...fadeUp} className="glass-panel p-8">
                   {specularLine}
                   <div className="p-3 rounded-xl inline-block mb-4" style={{ background: style.bg }}>
                     <Icon className={`w-6 h-6 ${style.color}`} />
@@ -113,7 +112,7 @@ export default function About() {
               );
             })}
           </div>
-          <motion.div {...fadeUp} className="lg-surface rounded-2xl overflow-hidden p-1">
+          <motion.div {...fadeUp} className="glass-panel overflow-hidden p-1">
             <iframe
               src={content.about.gettingHere.mapEmbedUrl || content.settings.links.mapsEmbedUrl}
               className="w-full h-72 rounded-xl"
@@ -128,7 +127,7 @@ export default function About() {
 
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="lg-surface lg-iridescent rounded-3xl p-10 text-center relative overflow-hidden">
+          <div className="glass-panel lg-iridescent p-10 text-center">
             {specularLine}
             <div className="relative z-10">
               <h2 className="font-display text-3xl font-bold text-white mb-4">{content.about.network.title}</h2>

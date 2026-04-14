@@ -88,12 +88,12 @@ export default function EventCard({ event, compact = false }) {
   }
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden hover:border-blue-500/40 transition-all">
+    <div className="glass-panel rounded-[1.6rem] transition-all hover:-translate-y-1 hover:border-blue-400/30">
       {event.image_url && (
-        <img src={event.image_url} alt={event.title} className="w-full h-40 object-cover opacity-80" />
+        <img src={event.image_url} alt={event.title} className="h-44 w-full object-cover opacity-85" />
       )}
       <div className="p-6">
-        <div className="flex items-center justify-between mb-3">
+        <div className="mb-3 flex items-center justify-between">
           <span className={`text-xs font-medium px-3 py-1 rounded-full ${colorClass}`}>
             {event.category}
           </span>
@@ -103,11 +103,11 @@ export default function EventCard({ event, compact = false }) {
             </span>
           )}
         </div>
-        <h3 className="text-white font-display text-xl font-semibold mb-2">{event.title}</h3>
+        <h3 className="mb-2 font-display text-2xl font-semibold text-white">{event.title}</h3>
         {event.description && (
-          <p className="text-white/60 text-sm leading-relaxed mb-4 line-clamp-2">{event.description}</p>
+          <p className="mb-4 line-clamp-2 text-sm leading-7 text-white/60">{event.description}</p>
         )}
-        <div className="space-y-1.5 mb-5">
+        <div className="mb-5 space-y-2">
           <div className="flex items-center gap-2 text-white/60 text-sm">
             <Calendar className="w-4 h-4 text-blue-400 shrink-0" />
             {dateLabel}
@@ -128,12 +128,12 @@ export default function EventCard({ event, compact = false }) {
 
         {/* Add to Calendar */}
         {event.date && (
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex flex-wrap gap-2">
             <a
               href={buildGoogleCalendarUrl(event)}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-500/20 text-blue-300 hover:bg-blue-500/40 transition-colors"
+              className="flex items-center gap-1.5 rounded-xl bg-blue-500/20 px-3 py-2 text-xs font-medium text-blue-300 transition-colors hover:bg-blue-500/35"
             >
               <ExternalLink className="w-3 h-3" /> Google Calendar
             </a>
@@ -141,7 +141,7 @@ export default function EventCard({ event, compact = false }) {
               href={buildOutlookUrl(event)}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-200 hover:bg-blue-500/30 transition-colors"
+              className="flex items-center gap-1.5 rounded-xl bg-blue-500/10 px-3 py-2 text-xs font-medium text-blue-200 transition-colors hover:bg-blue-500/25"
             >
               <ExternalLink className="w-3 h-3" /> Outlook
             </a>

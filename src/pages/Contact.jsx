@@ -13,7 +13,7 @@ const specularLine = (
   <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
 );
 
-const inputClass = 'w-full rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500/40 transition-all';
+const inputClass = 'glass-input-field';
 const inputStyle = { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)' };
 
 export default function Contact() {
@@ -57,18 +57,17 @@ export default function Contact() {
     <div className="pb-20">
       <SEOHead title={content.contact.seo.title} description={content.contact.seo.description} path="/contact" />
 
-      <div className="relative pt-32 pb-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <div className="page-hero">
+        <div className="page-hero-media">
           <img src={resolveMediaSrc(content.contact.header.image)} alt={content.contact.header.image.alt || 'Contact Dundee Elim'} className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
+          <div className="page-hero-overlay" />
         </div>
-        <div className="orb w-96 h-96 bg-cyan-700 top-0 right-1/4" />
-        <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.contact.header.eyebrow}</span>
-          <h1 className="font-display text-5xl sm:text-6xl font-bold text-white mt-3 mb-4">
+        <div className="page-hero-inner">
+          <span className="page-eyebrow">{content.contact.header.eyebrow}</span>
+          <h1 className="page-title">
             {content.contact.header.titleLead} <span className="text-gradient">{content.contact.header.titleHighlight}</span>
           </h1>
-          <p className="text-white/55">{content.contact.header.description}</p>
+          <p className="page-description">{content.contact.header.description}</p>
         </div>
       </div>
 
@@ -80,8 +79,7 @@ export default function Contact() {
               const Icon = style.Icon;
 
               return (
-                <motion.div key={`${card.kind}-${index}`} initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1, duration: 0.6 }} viewport={{ once: true }} className="lg-surface rounded-2xl p-7 relative overflow-hidden">
-                  {specularLine}
+                <motion.div key={`${card.kind}-${index}`} initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1, duration: 0.6 }} viewport={{ once: true }} className="glass-panel p-7">
                   <div className="p-3 rounded-xl inline-block mb-4" style={{ background: style.bg }}>
                     <Icon className={`w-6 h-6 ${style.color}`} />
                   </div>
@@ -124,8 +122,7 @@ export default function Contact() {
             })}
           </div>
 
-          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="lg:col-span-3 lg-surface rounded-2xl p-8 relative overflow-hidden">
-            {specularLine}
+          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="glass-panel lg:col-span-3 p-8">
             {submitted ? (
               <div className="flex flex-col items-center justify-center h-full py-16 text-center">
                 <div className="p-4 rounded-full mb-5" style={{ background: 'rgba(34,197,94,0.15)' }}>
@@ -182,7 +179,7 @@ export default function Contact() {
       </div>
 
       <div className="px-4 mt-10">
-        <div className="max-w-7xl mx-auto lg-surface rounded-2xl overflow-hidden p-1">
+        <div className="glass-panel section-inner overflow-hidden p-1">
           <iframe src={content.contact.mapEmbedUrl || content.settings.links.mapsEmbedUrl} className="w-full h-72 rounded-xl" style={{ border: 0 }} allowFullScreen loading="lazy" title="Church Location" />
         </div>
       </div>

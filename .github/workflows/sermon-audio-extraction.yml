@@ -1,0 +1,49 @@
+name: Sermon Audio Extraction
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: Supabase sermon extraction job id
+        required: true
+        type: string
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install yt-dlp
+        run: |
+          python3 -m pip install --user yt-dlp
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Run extraction worker
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            node scripts/sermon-extraction-worker.mjs --job-id "${{ github.event.inputs.job_id }}"
+          else
+            node scripts/sermon-extraction-worker.mjs
+          fi

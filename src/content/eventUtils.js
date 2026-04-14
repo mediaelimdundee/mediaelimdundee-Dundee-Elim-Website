@@ -1,4 +1,5 @@
 import { addWeeks, isAfter, parseISO, startOfDay } from 'date-fns';
+import { isPublishedContentItem } from '@/lib/siteContentUtils';
 
 const weekdayToIndex = {
   sunday: 0,
@@ -24,7 +25,7 @@ function alignDateToWeekday(date, weekday) {
 export function generateRecurringEvents(templates, { fromDate = new Date(), maxOccurrencesPerTemplate = 8 } = {}) {
   const today = startOfDay(fromDate);
 
-  return templates.flatMap((template) => {
+  return (templates || []).filter(isPublishedContentItem).flatMap((template) => {
     if (!template.startDate) {
       return [];
     }
@@ -56,7 +57,7 @@ export function generateRecurringEvents(templates, { fromDate = new Date(), maxO
 
 export function buildUpcomingEvents(eventContent, fromDate = new Date()) {
   const recurring = generateRecurringEvents(eventContent.recurringTemplates || [], { fromDate });
-  const special = (eventContent.specialEvents || []).map((event, index) => ({
+  const special = (eventContent.specialEvents || []).filter(isPublishedContentItem).map((event, index) => ({
     id: event.id || `${event.title}-${index}`,
     title: event.title,
     description: event.description,

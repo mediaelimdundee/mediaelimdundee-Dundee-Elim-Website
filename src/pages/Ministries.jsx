@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import SEOHead from '@/components/SEOHead';
 import { useSiteContent } from '@/contexts/SiteContentContext';
 import { ministryIconMap, ministryTagStyles, ministryThemeMap } from '@/lib/sitePresentation';
-import { resolveMediaSrc } from '@/lib/siteContentUtils';
+import { filterPublishedItems, resolveMediaSrc } from '@/lib/siteContentUtils';
 
 const specularLine = (
   <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
@@ -17,24 +17,24 @@ export default function Ministries() {
   const [activeTag, setActiveTag] = useState('All');
 
   const tags = ['All', ...Object.keys(ministryTagStyles)];
-  const visible = activeTag === 'All' ? content.ministries.items : content.ministries.items.filter((item) => item.tag === activeTag);
+  const publishedMinistries = filterPublishedItems(content.ministries.items);
+  const visible = activeTag === 'All' ? publishedMinistries : publishedMinistries.filter((item) => item.tag === activeTag);
 
   return (
     <div className="pb-20">
       <SEOHead title={content.ministries.seo.title} description={content.ministries.seo.description} path="/ministries" />
 
-      <div className="relative pt-32 pb-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <div className="page-hero">
+        <div className="page-hero-media">
           <img src={resolveMediaSrc(content.ministries.header.image)} alt={content.ministries.header.image.alt || 'Ministries at Dundee Elim'} className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
+          <div className="page-hero-overlay" />
         </div>
-        <div className="orb w-96 h-96 bg-indigo-800 top-0 right-1/4" />
-        <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <span className="text-blue-400 text-xs uppercase tracking-widest font-medium">{content.ministries.header.eyebrow}</span>
-          <h1 className="font-display text-5xl sm:text-6xl font-bold text-white mt-3 mb-4">
+        <div className="page-hero-inner">
+          <span className="page-eyebrow">{content.ministries.header.eyebrow}</span>
+          <h1 className="page-title">
             {content.ministries.header.titleLead} <span className="text-gradient">{content.ministries.header.titleHighlight}</span>
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed">{content.ministries.header.description}</p>
+          <p className="page-description">{content.ministries.header.description}</p>
         </div>
       </div>
 
@@ -44,10 +44,7 @@ export default function Ministries() {
             <button
               key={tag}
               onClick={() => setActiveTag(tag)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTag === tag ? 'text-white' : 'text-white/50 hover:text-white'}`}
-              style={activeTag === tag
-                ? { background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }
-                : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+              className={`glass-chip ${activeTag === tag ? 'glass-chip-active' : ''}`}
             >
               {tag}
             </button>
@@ -69,10 +66,9 @@ export default function Ministries() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="lg-surface rounded-2xl p-7 flex flex-col cursor-pointer hover:scale-[1.02] transition-transform relative overflow-hidden"
+                className="glass-panel flex cursor-pointer flex-col p-7 transition-transform hover:scale-[1.02]"
                 onClick={() => setSelected(item)}
               >
-                {specularLine}
                 <div className="flex items-start justify-between mb-5">
                   <div className="p-3 rounded-xl" style={{ background: iconStyle.bg }}>
                     <Icon className={`w-6 h-6 ${iconStyle.color}`} />
@@ -105,8 +101,7 @@ export default function Ministries() {
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-40" style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)' }} onClick={() => setSelected(null)} />
             <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} transition={{ duration: 0.2 }} className="fixed inset-0 z-50 flex items-center justify-center p-4">
-              <div className="lg-surface rounded-3xl p-8 max-w-2xl w-full max-h-[85vh] overflow-y-auto relative">
-                {specularLine}
+              <div className="glass-panel-strong relative max-h-[85vh] w-full max-w-2xl overflow-y-auto p-8">
                 <button onClick={() => setSelected(null)} className="absolute top-4 right-4 p-2 rounded-xl text-white/40 hover:text-white transition-colors" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
                   <X className="w-4 h-4" />
                 </button>

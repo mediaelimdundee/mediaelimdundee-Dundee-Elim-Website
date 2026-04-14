@@ -18,11 +18,13 @@ Build for production with `npm run build`.
 **Supabase setup**
 
 Run the SQL in `supabase/migrations/20260403_standalone_admin.sql` in your Supabase project.
+Then run `supabase/migrations/20260411_sermon_extraction_jobs.sql` to add the background audio extraction job table.
 
 This creates:
 - `site_content_versions`
 - `contact_submissions`
 - `prayer_submissions`
+- `sermon_extraction_jobs`
 - the public `site-media` storage bucket
 - row-level security policies for public reads/inserts and authenticated admin writes
 
@@ -55,3 +57,27 @@ The public contact and prayer forms insert into Supabase when configured. If Sup
 **Deployment**
 
 This project is a standard Vite React app and can be deployed to static hosting with SPA fallback support. A Netlify-style `_redirects` file is included in `public/_redirects`.
+
+**Automatic sermon extraction**
+
+The sermon manager can queue background YouTube audio extraction.
+
+Local development:
+- `npm run dev` now mounts `/.netlify/functions/*` directly inside the Vite dev server, so the admin UI can hit the extraction handlers without `netlify dev`.
+- In local dev, the dispatch endpoint uses the signed-in admin session plus the Supabase anon key from `.env.local`.
+- If GitHub dispatch credentials are not present, the app falls back to a local background worker that downloads `yt-dlp` on first use and uses the bundled `ffmpeg-static` binary.
+- Live-stream archive retries still require the GitHub Actions workflow or a manual retry once the VOD is available.
+
+Netlify environment variables required:
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `GITHUB_REPOSITORY_FULL_NAME`
+- `GITHUB_ACTIONS_TRIGGER_TOKEN`
+- optional: `GITHUB_WORKFLOW_FILE` (defaults to `sermon-audio-extraction.yml`)
+- optional: `GITHUB_WORKFLOW_REF` (defaults to `main`)
+
+GitHub Actions secrets required:
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+The workflow lives at `.github/workflows/sermon-audio-extraction.yml` and uses `yt-dlp` plus `ffmpeg` to trim the sermon range, convert it to MP3, upload it to Supabase Storage, and move the episode to `ready`.

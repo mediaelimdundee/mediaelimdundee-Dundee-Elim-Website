@@ -63,7 +63,6 @@ export default function PrayerRequestForm() {
           <div className="absolute inset-x-0 top-0 h-px rounded-t-3xl" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)' }} />
           {/* Iridescent */}
           <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.07), rgba(59,130,246,0.05), rgba(168,85,247,0.04))' }} />
-          <div className="orb w-60 h-60 bg-purple-700 -top-20 -right-20" />
 
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-2">

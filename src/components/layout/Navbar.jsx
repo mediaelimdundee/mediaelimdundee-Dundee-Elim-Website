@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -20,7 +20,37 @@ export default function Navbar() {
   const { content } = useSiteContent();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [pillStyle, setPillStyle] = useState(null);
+  const desktopNavRef = useRef(null);
+  const linkRefs = useRef({});
   const location = useLocation();
+
+  useLayoutEffect(() => {
+    function syncPill() {
+      const container = desktopNavRef.current;
+      const activeLink = linkRefs.current[location.pathname];
+
+      if (!container || !activeLink) {
+        setPillStyle(null);
+        return;
+      }
+
+      const containerRect = container.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+
+      setPillStyle({
+        x: linkRect.left - containerRect.left,
+        y: linkRect.top - containerRect.top,
+        width: linkRect.width,
+        height: linkRect.height,
+      });
+    }
+
+    syncPill();
+    window.addEventListener('resize', syncPill);
+
+    return () => window.removeEventListener('resize', syncPill);
+  }, [location.pathname, scrolled]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 30);
@@ -36,52 +66,57 @@ export default function Navbar() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`w-full max-w-6xl transition-all duration-500 rounded-3xl ${
+        className={`w-full max-w-6xl transition-all duration-500 rounded-[1.9rem] ${
           scrolled
-            ? 'lg-surface-raised'
-            : 'lg-surface'
+            ? 'glass-panel-strong'
+            : 'glass-panel'
         }`}
         style={{ position: 'relative' }}
       >
-        {/* Specular top highlight */}
-        <div className="absolute inset-x-0 top-0 h-px rounded-t-2xl"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)' }} />
-
-        <div className="pr-4 sm:pr-6">
-          <div className="flex items-center justify-between h-20">
+        <div className="pr-3 pl-1 sm:pr-5 sm:pl-2">
+          <div className="flex min-h-[5.25rem] items-center justify-between gap-3">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 shrink-0">
-              <img src={resolveMediaSrc(content.settings.branding.logo)} alt={content.settings.siteName} className="h-20 w-20 object-contain" />
-              <div className="hidden sm:block -ml-3">
-                <div className="font-display text-xl font-bold text-white leading-tight">{content.settings.shortName}</div>
-                <div className="text-xs text-blue-300/80 tracking-widest uppercase">{content.settings.tagline}</div>
+            <Link to="/" className="flex shrink-0 items-center gap-2">
+              <img src={resolveMediaSrc(content.settings.branding.logo)} alt={content.settings.siteName} className="h-20 w-20 object-contain sm:h-[5.4rem] sm:w-[5.4rem]" />
+              <div className="hidden sm:block -ml-2">
+                <div className="font-display text-[1.08rem] font-bold leading-tight text-white">{content.settings.shortName}</div>
+                <div className="text-[0.64rem] uppercase tracking-[0.28em] text-blue-300/80">{content.settings.tagline}</div>
               </div>
             </Link>
 
             {/* Desktop nav */}
-            <div className="hidden md:flex items-center gap-0.5">
+            <div ref={desktopNavRef} className="relative hidden items-center gap-1 md:flex">
+              {pillStyle ? (
+                <motion.span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute rounded-full"
+                  style={{
+                    background: 'rgba(255,255,255,0.1)',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    boxShadow: '0 1px 0 rgba(255,255,255,0.15) inset',
+                  }}
+                  initial={false}
+                  animate={pillStyle}
+                  transition={{ type: 'spring', stiffness: 360, damping: 32, mass: 0.8 }}
+                />
+              ) : null}
               {navLinks.map(link => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative px-3 py-1.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  ref={(node) => {
+                    if (node) {
+                      linkRefs.current[link.path] = node;
+                    } else {
+                      delete linkRefs.current[link.path];
+                    }
+                  }}
+                  className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-all duration-200 ${
                     location.pathname === link.path
                       ? 'text-white'
                       : 'text-white/60 hover:text-white'
                   }`}
                 >
-                  {location.pathname === link.path && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-xl"
-                      style={{
-                        background: 'rgba(255,255,255,0.1)',
-                        border: '1px solid rgba(255,255,255,0.15)',
-                        boxShadow: '0 1px 0 rgba(255,255,255,0.15) inset',
-                      }}
-                      transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
-                    />
-                  )}
                   <span className="relative z-10">{link.label}</span>
                 </Link>
               ))}
@@ -90,10 +125,10 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 rounded-xl transition-all"
+              className="rounded-2xl p-2.5 transition-all md:hidden"
               style={{
                 background: 'rgba(255,255,255,0.08)',
-                border: '1px solid rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.14)',
               }}
             >
               {isOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
@@ -110,16 +145,16 @@ export default function Navbar() {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden overflow-hidden"
             >
-              <div className="px-4 pb-4 pt-1 space-y-0.5"
+              <div className="space-y-1 px-3 pb-4 pt-2"
                 style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                 {navLinks.map(link => (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`block px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                    className={`block rounded-2xl px-4 py-3 text-sm font-medium transition-all ${
                       location.pathname === link.path
-                        ? 'text-white bg-white/10'
-                        : 'text-white/60 hover:text-white hover:bg-white/06'
+                        ? 'bg-white/10 text-white'
+                        : 'text-white/60 hover:bg-white/5 hover:text-white'
                     }`}
                   >
                     {link.label}

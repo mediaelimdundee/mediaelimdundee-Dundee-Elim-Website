@@ -51,6 +51,9 @@ const sermonVideoSchema = z.object({
   series: z.string().default(''),
   date: z.string().default(''),
   description: z.string().default(''),
+  thumbnailUrl: z.string().default(''),
+  status: z.enum(['draft', 'published']).default('published'),
+  publishedAt: z.string().default(''),
 });
 
 const audioSermonSchema = z.object({
@@ -61,9 +64,34 @@ const audioSermonSchema = z.object({
   date: z.string().default(''),
   description: z.string().default(''),
   audio_url: z.string().default(''),
+  thumbnailUrl: z.string().default(''),
+  youtube_url: z.string().default(''),
+  start_time: z.string().default(''),
+  end_time: z.string().default(''),
+  scripture_reference: z.string().default(''),
+  episode_number: z.number().int().nullable().default(null),
+  show_notes: z.string().default(''),
+  transcript: z.string().default(''),
+  duration_seconds: z.number().int().nullable().default(null),
+  status: z.enum(['draft', 'ready', 'published']).default('draft'),
+  publishedAt: z.string().default(''),
+});
+
+const podcastSettingsSchema = z.object({
+  title: z.string().default(''),
+  description: z.string().default(''),
+  churchName: z.string().default(''),
+  author: z.string().default(''),
+  email: z.string().default(''),
+  website: z.string().default(''),
+  category: z.string().default('Religion & Spirituality'),
+  language: z.string().default('en'),
+  copyright: z.string().default(''),
+  coverArt: mediaAssetRefSchema.default({}),
 });
 
 const recurringEventTemplateSchema = z.object({
+  id: z.string().default(''),
   title: z.string().default(''),
   description: z.string().default(''),
   location: z.string().default(''),
@@ -73,9 +101,12 @@ const recurringEventTemplateSchema = z.object({
   intervalWeeks: z.number().int().min(1).default(1),
   startDate: z.string().default(''),
   recurringLabel: z.string().default(''),
+  status: z.enum(['draft', 'published']).default('published'),
+  publishedAt: z.string().default(''),
 });
 
 const specialEventSchema = z.object({
+  id: z.string().default(''),
   title: z.string().default(''),
   description: z.string().default(''),
   location: z.string().default(''),
@@ -83,9 +114,12 @@ const specialEventSchema = z.object({
   date: z.string().default(''),
   time: z.string().default(''),
   image: mediaAssetRefSchema.optional(),
+  status: z.enum(['draft', 'published']).default('published'),
+  publishedAt: z.string().default(''),
 });
 
 const ministryItemSchema = z.object({
+  id: z.string().default(''),
   title: z.string().default(''),
   tag: z.enum(['Discover', 'Community', 'Children', 'Serve']).default('Discover'),
   summary: z.string().default(''),
@@ -97,6 +131,8 @@ const ministryItemSchema = z.object({
   contactPhone: z.string().default(''),
   iconKey: z.enum(['heart', 'users', 'zap', 'star', 'church', 'book-open', 'utensils-crossed', 'baby', 'music']).default('users'),
   theme: z.enum(['red', 'orange', 'blue', 'green', 'pink', 'indigo', 'amber', 'yellow', 'purple']).default('blue'),
+  status: z.enum(['draft', 'published']).default('published'),
+  publishedAt: z.string().default(''),
 });
 
 const giveMethodSchema = z.object({
@@ -323,6 +359,7 @@ export const siteContentSchema = z.object({
     }),
     videoSermons: z.array(sermonVideoSchema).default([]),
     audioSermons: z.array(audioSermonSchema).default([]),
+    podcast: podcastSettingsSchema.default({}),
   }),
   events: z.object({
     seo: seoFieldsSchema,
